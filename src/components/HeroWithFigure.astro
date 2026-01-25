@@ -16,8 +16,8 @@ const { greeting, figure, links } = Astro.props;
       class="w-2xs"
     />
     <div class="flex flex-col items-center lg:items-start">
-      <h1 class="text-5xl font-bold">{greeting}</h1>
-      <p class="py-6">
+      <h1 class="text-5xl font-bold mt-4">{greeting}</h1>
+      <p class="py-6 text-center lg:text-left">
         <slot />
       </p>
       {links?.length ? (

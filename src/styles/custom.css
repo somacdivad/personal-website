@@ -1,24 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Karla:ital,wght@0,200..800;1,200..800&display=swap'); */
 @import "tailwindcss";
+
 @plugin "daisyui" {
   themes: bumblebee --default, dracula --prefersdark;
 }
 
-@font-face {
-	font-family: "Atkinson";
-	src: url("/fonts/atkinson-regular.woff") format("woff");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
-}
-@font-face {
-	font-family: "Atkinson";
-	src: url("/fonts/atkinson-bold.woff") format("woff");
-	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
-}
+
 body {
-	font-family: "Atkinson", sans-serif;
+	font-family: "Inter", sans-serif;
 	margin: 0;
 	padding: 0;
 	text-align: left;
@@ -28,7 +18,17 @@ body {
 	line-height: 1.7;
 }
 
+@utility caveat {
+    font-family: "Caveat", cursive;
+}
 
+h1,
+h2,
+h3,
+h4,
+h5 {
+    @apply caveat;
+}
 h1 {
 	@apply text-5xl font-bold;
 }
@@ -44,6 +44,7 @@ h4 {
 h5 {
 	@apply text-xl font-bold;
 }
+
 
 main {
 	width: 800px;
@@ -78,6 +79,23 @@ main {
     }
     a:hover {
         @apply text-primary underline;
+    }
+
+    a[href^="http"]::after {
+        content: "";
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        margin-left: 5px;
+
+        /* Set the icon as a mask */
+        -webkit-mask-image: url('src/icons/ui/external-link.svg');
+        mask-image: url('src/icons/ui/external-link.svg');
+        mask-repeat: no-repeat;
+        mask-size: contain;
+
+        /* Change this to any color you want! */
+        background-color: var(--color-base-content);
     }
 
     ul {
