@@ -12,3 +12,11 @@
         @apply text-xl hover:text-blue-500;
     }
 }
+
+footer a {
+    @apply text-black;
+
+    :hover {
+        @apply text-inherit;
+    }
+}
