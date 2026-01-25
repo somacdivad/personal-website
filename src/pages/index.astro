@@ -3,7 +3,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import HeroWithFigure from '../components/HeroWithFigure.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { SITE_DESCRIPTION, SITE_TITLE, SOCIAL_LINKS } from '../consts';
 ---
 
 <!doctype html>
@@ -14,14 +14,32 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 	<body>
 		<Header />
 		<HeroWithFigure
-			greeting="Well, hello!"
+			greeting="Well, hello."
 			figure={{ src: "src/assets/davidamos.png", alt: "TODO" }}
 		>
-			I'm David Amos, a husband, father, thinker, writer, and musician.
+			I'm David Amos: a <em>husband</em>, <em>father</em>, <em>thinker</em>, <em>writer</em>, and <em>musician</em>.
 		</HeroWithFigure>
 		<main>
+			<h2>About Me</h2>
 			<p>
-				Lorem ipsum dolor poo poo pee pee
+				I am a professional technical writer with over a decade of experience in the tech industry.
+				Currently, I lead the Docs and Education Team at <a href="https://relational.ai">RelationalAI</a>.
+			</p>
+			<p>
+				My motto is: "Just say the damn thing."
+				I believe that clarity and simplicity are the keys to effective communication.
+				These principles guide all of my work, whether that's designing a documentation system, crafting educational materials, publishing blog posts, or writing a love letter to my wife.
+			</p>
+			<p>
+				You'll have to judge for yourself whether I live up to that ideal.
+			</p>
+			<h2>My Writing</h2>
+			<p>
+				At work, I write about programming and artificial intelligence, with a focus on Python and SQL.
+				My personal writing covers a range of topics including technology, parenting, music, and philosophy.
+			</p>
+			<p>
+				I publish my personal writing on my <a href="/blog">blog</a> and on <a href={SOCIAL_LINKS.find(link => link.name === 'Medium').href}>Medium</a>.
 			</p>
 		</main>
 		<Footer />

@@ -5,6 +5,11 @@ export const SITE_TITLE = 'David Amos | Author & Technical Writer';
 export const SITE_DESCRIPTION = 'Don\'t know who David Amos is? Me either, but this is my best attempt at figuring it out.';
 export const SOCIAL_LINKS = [
     {
+        name: 'Medium',
+        href: 'https://somacdivad.medium.com/',
+        icon: 'logos/medium'
+    },
+    {
         name: 'Mastodon',
         href: 'https://hachyderm.io/@somacdivad',
         icon: 'logos/mastodon'
