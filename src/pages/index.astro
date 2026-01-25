@@ -2,46 +2,44 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import HeroWithFigure from '../components/HeroWithFigure.astro';
+import { SITE_DESCRIPTION, SITE_TITLE, SOCIAL_LINKS } from '../consts';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="bumblebee">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
 		<Header />
+		<HeroWithFigure
+			greeting="Well, hello."
+			figure={{ src: "/images/davidamos.png", alt: "TODO" }}
+		>
+			I'm David Amos: a <em>husband</em>, <em>father</em>, <em>writer</em>, and <em>musician</em>.
+		</HeroWithFigure>
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
+			<h2>About Me</h2>
 			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
+				I am a professional technical writer with over a decade of experience in the tech industry.
+				Currently, I lead the Docs and Education Team at <a href="https://relational.ai" target="_blank" rel="noopener noreferrer">RelationalAI</a>.
 			</p>
 			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
+				My motto is: "Just say the damn thing."
+				I believe that clarity and simplicity are the keys to effective communication.
+				These principles guide all of my work, whether that's designing a documentation system, crafting educational materials, publishing blog posts, or writing a love letter to my wife.
 			</p>
 			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
+				You'll have to judge for yourself whether I live up to that ideal.
+			</p>
+			<h2>My Writing</h2>
+			<p>
+				At work, I write about programming and artificial intelligence, with a focus on Python and SQL.
+				My personal writing covers a range of topics including technology, parenting, music, and philosophy.
+			</p>
+			<p>
+				I publish my personal writing on my <a href="/blog">blog</a> and on <a href={SOCIAL_LINKS.find(link => link.name === 'Medium').href} target="_blank" rel="noopener noreferrer">Medium</a>.
 			</p>
 		</main>
 		<Footer />

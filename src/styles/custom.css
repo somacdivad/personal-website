@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Karla:ital,wght@0,200..800;1,200..800&display=swap'); */
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: bumblebee --default, dracula --prefersdark;
+}
+
+
+body {
+	font-family: "Inter", sans-serif;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	font-size: 20px;
+	line-height: 1.7;
+}
+
+@utility caveat {
+    font-family: "Caveat", cursive;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    @apply caveat;
+}
+h1 {
+	@apply text-5xl font-bold;
+}
+h2 {
+    @apply text-4xl font-bold;
+}
+h3 {
+	@apply text-3xl font-bold;
+}
+h4 {
+	@apply text-2xl font-bold;
+}
+h5 {
+	@apply text-xl font-bold;
+}
+
+
+main {
+	width: 800px;
+	max-width: calc(100% - 2em);
+	margin: auto;
+	padding: 3em 1em;
+}
+
+main:first-child {
+    @apply mt-2;
+}
+
+main {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply mb-6;
+    }
+    h2 {
+        @apply mt-16;
+    }
+
+    p {
+        margin-bottom: 1.4em;
+    }
+
+    a {
+        @apply text-secondary;
+    }
+    a:hover {
+        @apply text-primary underline;
+    }
+
+    a[href^="http"]::after {
+        content: "";
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        margin-left: 5px;
+
+        /* Set the icon as a mask */
+        -webkit-mask-image: url('/icons/external-link.svg');
+        mask-image: url('/icons/external-link.svg');
+        mask-repeat: no-repeat;
+        mask-size: contain;
+
+        /* Change this to any color you want! */
+        background-color: var(--color-base-content);
+    }
+
+    ul {
+        list-style-type: disc;
+        list-style-position: inside;
+        padding-left: 1em;
+        margin-bottom: 1.4em;
+    }
+}
+
+strong,
+b {
+	font-weight: 700;
+}
+
+.navbar-end {
+    gap: 0.5rem;
+}
+
+.navbar a {
+    color: var(--color-base-content);
+}
+
+footer a {
+    color: var(--color-base-content);
+
+    :hover {
+        color: inherit;
+    }
+}
