@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+.navbar a {
+    @apply text-black;
+}
+
+.navbar-end {
+    gap: 0.5rem;
+
+    a {
+        @apply text-xl hover:text-blue-500;
+    }
+}
