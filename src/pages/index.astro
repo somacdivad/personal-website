@@ -7,20 +7,22 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="bumblebee">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
 		<Header />
+		<HeroWithFigure
+			greeting="Well, hello!"
+			figure={{ src: "src/assets/davidamos.png", alt: "TODO" }}
+		>
+			I'm David Amos, a husband, father, thinker, writer, and musician.
+		</HeroWithFigure>
 		<main>
-			<HeroWithFigure
-				greeting="Well, hello!"
-				figure={{ src: "src/assets/davidamos.png", alt: "TODO" }}
-			>
-				I'm David Amos, a husband, father, thinker, writer, and musician.
-			</HeroWithFigure>
-
+			<p>
+				Lorem ipsum dolor poo poo pee pee
+			</p>
 		</main>
 		<Footer />
 	</body>

@@ -1,22 +1,27 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: bumblebee --default, dracula --prefersdark;
+}
 
-.navbar a {
-    @apply text-black;
+main {
+	width: 720px;
+	max-width: calc(100% - 2em);
+	margin: auto;
+	padding: 3em 1em;
 }
 
 .navbar-end {
     gap: 0.5rem;
+}
 
-    a {
-        @apply text-xl hover:text-blue-500;
-    }
+.navbar a {
+    color: var(--color-base-content);
 }
 
 footer a {
-    @apply text-black;
+    color: var(--color-base-content);
 
     :hover {
-        @apply text-inherit;
+        color: inherit;
     }
 }

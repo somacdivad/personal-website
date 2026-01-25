@@ -8,14 +8,14 @@ interface Props {
 const { greeting, figure, links } = Astro.props;
 ---
 
-<div class="hero bg-base max-h-lg">
+<div class="hero bg-base-300 max-h-lg">
   <div class="hero-content flex-col lg:flex-row-reverse">
     <img
       src={figure.src}
       alt={figure.alt}
       class="w-2xs"
     />
-    <div>
+    <div class="flex flex-col items-center lg:items-start">
       <h1 class="text-5xl font-bold">{greeting}</h1>
       <p class="py-6">
         <slot />
