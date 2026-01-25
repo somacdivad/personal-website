@@ -3,11 +3,29 @@
   themes: bumblebee --default, dracula --prefersdark;
 }
 
-main {
-	width: 800px;
-	max-width: calc(100% - 2em);
-	margin: auto;
-	padding: 3em 1em;
+@font-face {
+	font-family: "Atkinson";
+	src: url("/fonts/atkinson-regular.woff") format("woff");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Atkinson";
+	src: url("/fonts/atkinson-bold.woff") format("woff");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+body {
+	font-family: "Atkinson", sans-serif;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	font-size: 20px;
+	line-height: 1.7;
 }
 
 
@@ -26,6 +44,18 @@ h4 {
 h5 {
 	@apply text-xl font-bold;
 }
+
+main {
+	width: 800px;
+	max-width: calc(100% - 2em);
+	margin: auto;
+	padding: 3em 1em;
+}
+
+main:first-child {
+    @apply mt-2;
+}
+
 main {
     h1,
     h2,
@@ -37,9 +67,6 @@ main {
     }
     h2 {
         @apply mt-16;
-    }
-    h2:first-of-type {
-        @apply mt-2;
     }
 
     p {
@@ -53,6 +80,12 @@ main {
         @apply text-primary underline;
     }
 
+    ul {
+        list-style-type: disc;
+        list-style-position: inside;
+        padding-left: 1em;
+        margin-bottom: 1.4em;
+    }
 }
 
 strong,

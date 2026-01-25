@@ -2,7 +2,7 @@
 import { Icon } from 'astro-icon/components'
 ---
 
-<div class="navbar bg-base-100 shadow-sm">
+<div class="navbar bg-base-100 shadow-md">
   <div class="navbar-start">
     <div class="dropdown">
       <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
@@ -12,19 +12,21 @@ import { Icon } from 'astro-icon/components'
         tabindex="-1"
         class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
         <li><a href="/">Home</a></li>
+        <li><a href="/philosophy">Philosophy</a></li>
         <li><a href="/blog">Blog</a></li>
       </ul>
     </div>
-    <a class="btn btn-link text-xl">david amos</a>
+    <a class="btn btn-link text-xl" href="/">David Amos</a>
   </div>
   <div class="navbar-center hidden lg:flex">
-    <ul class="menu menu-horizontal px-1">
+    <ul class="menu menu-horizontal px-1 text-lg">
       <li><a href="/">Home</a></li>
+      <li><a href="/philosophy">Philosophy</a></li>
       <li><a href="/blog">Blog</a></li>
     </ul>
   </div>
   <div class="navbar-end">
-    <a class="btn btn-square btn-ghost">
+    <a class="btn btn-square btn-ghost pt-0 mt-0">
       <label class="swap swap-rotate">
         <!-- this hidden checkbox controls the state -->
         <input type="checkbox" class="theme-controller" value="dracula" />
@@ -38,3 +40,19 @@ import { Icon } from 'astro-icon/components'
     </a>
   </div>
 </div>
+
+<script is:inline>
+  const themeToggle = document.querySelector('input.theme-controller[type="checkbox"]');
+  const storageKey = 'themeToggleChecked';
+
+  if (themeToggle instanceof HTMLInputElement) {
+    const savedChecked = localStorage.getItem(storageKey);
+    if (savedChecked !== null) {
+      themeToggle.checked = savedChecked === 'true';
+    }
+
+    themeToggle.addEventListener('change', () => {
+      localStorage.setItem(storageKey, String(themeToggle.checked));
+    });
+  }
+</script>

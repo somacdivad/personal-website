@@ -1,0 +1,55 @@
+---
+import { ACTION_ERROR_CODES } from 'astro:actions';
+import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
+import Layout from '../layouts/BlogPost.astro';
+---
+
+<Layout
+	title="My Philosophy"
+	description="Lorem ipsum dolor sit amet"
+	pubDate={new Date('January 25 2026')}
+>
+	<p>
+		What I think and believe about the universe is constantly in flux.
+		This is my best attempt to capture my current worldview in writing.
+	</p>
+
+	<h2>Religion</h2>
+
+	<p>
+		I do not believe in the supernatural.
+		As a result, I do not believe in the gods of traditional religions.
+		However, I do not claim to know whether or not our universe was created.
+		If it was, I believe that the creator did so through natural processes that we may one day understand.
+	</p>
+	<p>
+		I enjoy reading about Zen Buddhism, and I sometimes attend Catholic mass with my wife.
+	</p>
+
+	<h2>Free Will</h2>
+
+	<p>
+		Some people might call my position <b>compatibilism</b>: the idea that free will and determinism are compatible.
+		I believe in a limited form of free will, and that most of the time we do not exercise it.
+	</p>
+	<p>
+		At any given moment, our thoughts and actions are determined by our:
+	</p>
+
+	<ul>
+		<li>genetics,</li>
+		<li>upbringing,</li>
+		<li>environment, and</li>
+		<li>neural wiring.</li>
+	</ul>
+
+	<p>
+		All of these factors create a causal chain with a long history stretching back to the beginning of biology.
+	</p>
+	<p>
+		The only factor we have any real control over is our neural wiring.
+		Through practices like meditation and cognitive behavioral therapy, we can rewire our brains to some extent.
+		However, even this is limited by genetics and evolutionary history.
+	</p>
+
+</Layout>
