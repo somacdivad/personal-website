@@ -12,28 +12,32 @@ import { SITE_DESCRIPTION, SITE_TITLE, SOCIAL_LINKS } from '../consts';
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
-		<Header />
-		<HeroWithFigure
-			greeting="Well, hello."
-			figure={{ src: "/images/davidamos.png", alt: "TODO" }}
-		>
-			I'm David Amos: a <em>husband</em>, <em>father</em>, <em>writer</em>, and <em>musician</em>.
-		</HeroWithFigure>
-		<main>
-			<h2>What I Do</h2>
-			<p>
-				I am a professional technical writer with over a decade of experience in the tech industry.
-				Currently, I lead the Docs and Education Team at <a href="https://relational.ai" target="_blank" rel="noopener noreferrer">RelationalAI</a>.
-			</p>
+		<div class="flex flex-col min-h-screen ">
+			<Header />
+			<div class="flex-grow">
+				<HeroWithFigure
+					greeting="Well, hello."
+					figure={{ src: "/images/davidamos.png", alt: "TODO" }}
+				>
+					I'm David Amos: a <em>husband</em>, <em>father</em>, <em>writer</em>, and <em>musician</em>.
+				</HeroWithFigure>
+				<main>
+					<h2>What I Do</h2>
+					<p>
+						I am a professional technical writer with over a decade of experience in the tech industry.
+						Currently, I lead the Docs and Education Team at <a href="https://relational.ai" target="_blank" rel="noopener noreferrer">RelationalAI</a>.
+					</p>
 
-			<p>
-				At work, I write about programming and artificial intelligence, with a focus on Python and SQL.
-				My personal writing covers a range of topics including technology, parenting, music, and philosophy.
-			</p>
-			<p>
-				I publish my personal writing on my <a href="/blog">blog</a> and on <a href={SOCIAL_LINKS.find(link => link.name === 'Medium').href} target="_blank" rel="noopener noreferrer">Medium</a>.
-			</p>
-		</main>
-		<Footer />
+					<p>
+						At work, I write about programming and artificial intelligence, with a focus on Python and SQL.
+						My personal writing covers a range of topics including technology, parenting, music, and philosophy.
+					</p>
+					<p>
+						I publish my personal writing on my <a href="/blog">blog</a> and on <a href={SOCIAL_LINKS.find(link => link.name === 'Medium').href} target="_blank" rel="noopener noreferrer">Medium</a>.
+					</p>
+				</main>
+			<div>
+			<Footer />
+		</div>
 	</body>
 </html>
