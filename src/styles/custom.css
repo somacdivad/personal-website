@@ -49,9 +49,9 @@ h5 {
 
 main {
 	width: 800px;
-	/* max-width: 100%vw; */
+	max-width: calc(100% - 2em);
 	margin: auto;
-	padding: 1em 0;
+	padding: 1em 1em;
 }
 
 main:first-child {
