@@ -130,6 +130,15 @@ b {
     justify-content: center;
 }
 
+blockquote {
+    border-left: 4px solid var(--color-accent);
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 1em;
+    color: rgb(var(--gray));
+    font-style: italic;
+}
+
 footer a {
     color: var(--color-base-content);
 
