@@ -206,6 +206,9 @@ footer a {
 }
 
 article {
+    width: 800px;
+	max-width: calc(100% - 2em);
+	margin: auto;
     .hero-image {
         width: 100%;
     }
