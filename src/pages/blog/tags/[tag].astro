@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import FormattedDate from '../../../components/FormattedDate.astro';
+
+export async function getStaticPaths() {
+  const allPosts = (await getCollection('blog')).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
+
+  const uniqueTags = [...new Set(allPosts.flatMap((post) => post.data.tags ?? []))];
+
+  return uniqueTags.map((tag) => {
+    const filteredPosts = allPosts.filter((post) => (post.data.tags ?? []).includes(tag));
+    return {
+      params: { tag },
+      props: { posts: filteredPosts },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+
+<BaseLayout
+    title={tag}
+    description={`All David's blog posts tagged with ${tag}`}
+>
+    <main>
+        <h1>Posts tagged with "{tag}"</h1>
+        <section class="blog-posts">
+            <ul>
+                {
+                    posts.map((post) => (
+                        <li>
+                            <a href={`/blog/${post.id}/`}>
+                                {post.data.heroImage && (
+                                    <Image width={720} height={360} src={post.data.heroImage} alt="" />
+                                )}
+                                <h4 class="title">{post.data.title}</h4>
+                                <p class="date">
+                                    <FormattedDate date={post.data.pubDate} />
+                                </p>
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </section>
+    </main>
+</BaseLayout>
