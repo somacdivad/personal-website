@@ -31,13 +31,13 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro
 					}
 				</div>
 				<h1>{title}</h1>
-				{(tags && (
+				{tags.length > 0 && (
 					<div class="flex flex-row justify-center gap-2 mb-7">
-						{Astro.props.tags.map((tag: string) => (
+						{tags.map((tag: string) => (
 							<a href={`/blog/tags/${tag}/`} class="badge badge-soft badge-accent">{tag}</a>
 						))}
 					</div>
-				))}
+				)}
 				<hr />
 			</div>
 			<main>
