@@ -244,3 +244,13 @@ article {
         font-style: italic;
     }
 }
+
+ol li {
+    list-style-position: inside;
+    text-indent: -1.4em;
+    margin-left: 1.6em;
+}
+
+.footnotes ol li p {
+    display: inline;
+}
