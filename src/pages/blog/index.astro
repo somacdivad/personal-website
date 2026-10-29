@@ -4,42 +4,152 @@ import { getBlogPosts } from '../../lib/blog';
 import FormattedDate from '../../components/FormattedDate.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const posts = (await getBlogPosts()).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+const posts = (await getBlogPosts()).sort((a, b) => +b.data.pubDate - +a.data.pubDate);
+const tags = [...new Set(posts.flatMap(post => post.data.tags))].sort();
+const tagNames: Record<string, string> = { inputs: 'Inputs', music: 'Music', 'an-album-a-day': 'An Album a Day' };
 ---
 
-<BaseLayout
-	title="Blog"
-	description="David Amos is waxing philosophical about technology, parenting, music, and life."
->
-	<main>
-		{
-			posts.length ? (
-				<section class="blog-posts">
-					<ul>
-						{
-							posts.map((post) => (
-								<li>
-									<a href={`/blog/${post.id}/`}>
-										{post.data.heroImage && (
-											<Image width={720} height={360} src={post.data.heroImage} alt="" />
-										)}
-										<h4 class="title">{post.data.title}</h4>
-										<p class="date">
-											<FormattedDate date={post.data.pubDate} />
-										</p>
-									</a>
-								</li>
-							))
-						}
-					</ul>
-				</section>
-			) : (
-				<section class="flex min-h-[60vh] items-center justify-center">
-					<p class="text-center text-2xl font-semibold text-gray-500">Coming soon...</p>
-				</section>
-			)
-		}
-	</main>
+<BaseLayout title="Blog" description="David Amos is waxing philosophical about technology, parenting, music, and life.">
+  <main class="blog-index">
+    <h1>Blog</h1>
+    {posts.length ? <>
+      <nav class="topics" aria-label="Filter posts by topic">
+        <a href="/blog/" data-topic="" aria-current="true">All topics</a>
+        {tags.map(tag => <a href={`/blog/tags/${encodeURIComponent(tag)}/`} data-topic={tag}>{tagNames[tag] ?? tag}</a>)}
+      </nav>
+      <div class="browse-controls">
+        <p class="result-count" role="status">{posts.length} posts</p>
+        <label class="sort-control" hidden>Order:
+          <select aria-label="Sort posts">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="title">Title A–Z</option>
+          </select>
+        </label>
+      </div>
+      <ul class="reading-list">
+        {posts.map(post => <li data-post data-tags={JSON.stringify(post.data.tags)} data-title={post.data.title} data-date={+post.data.pubDate}>
+          <a class:list={['post-link', { 'without-image': !post.data.heroImage }]} href={`/blog/${post.id}/`}>
+            {post.data.heroImage && <Image src={post.data.heroImage} width={220} height={220} alt="" loading="lazy" />}
+            <div class="post-copy">
+              <h2>{post.data.title}</h2>
+              <p class="post-date"><FormattedDate date={post.data.pubDate} />{post.data.draft && ' · Draft'}</p>
+              {post.data.description && <p class="post-description">{post.data.description}</p>}
+              {post.data.tags.length > 0 && <p class="post-tags">{post.data.tags.map(tag => tagNames[tag] ?? tag).join(' · ')}</p>}
+            </div>
+          </a>
+        </li>)}
+      </ul>
+      <p class="empty-message" hidden>No posts in this topic yet. <a href="/blog/" data-reset>Show all topics</a>.</p>
+    </> : <p>Coming soon...</p>}
+  </main>
 </BaseLayout>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.blog-index');
+  const list = root?.querySelector<HTMLUListElement>('.reading-list');
+  const select = root?.querySelector<HTMLSelectElement>('select');
+  if (root && list && select) {
+    const entries = [...list.querySelectorAll<HTMLLIElement>('[data-post]')];
+    const topics = [...root.querySelectorAll<HTMLAnchorElement>('[data-topic]')];
+    const count = root.querySelector<HTMLElement>('.result-count')!;
+    const empty = root.querySelector<HTMLElement>('.empty-message')!;
+    root.querySelector<HTMLElement>('.sort-control')!.hidden = false;
+    let topic = '';
+
+    function update() {
+      const direction = select!.value === 'oldest' ? 1 : -1;
+      entries.sort((a, b) => select!.value === 'title'
+        ? a.dataset.title!.localeCompare(b.dataset.title!, 'en', { numeric: true })
+        : direction * (Number(a.dataset.date) - Number(b.dataset.date)));
+      let visible = 0;
+      for (const entry of entries) {
+        entry.hidden = !!topic && !JSON.parse(entry.dataset.tags!).includes(topic);
+        if (!entry.hidden) visible++;
+        list!.append(entry);
+      }
+      topics.forEach(link => {
+        if (link.dataset.topic === topic) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      });
+      const topicName = topics.find(link => link.dataset.topic === topic)?.textContent;
+      count.textContent = `${visible} ${visible === 1 ? 'post' : 'posts'}${topic && topicName ? ` in ${topicName}` : ''}`;
+      empty.hidden = visible > 0;
+    }
+
+    function readLocation() {
+      const params = new URLSearchParams(location.search);
+      topic = params.get('tag') ?? '';
+      const sort = params.get('sort');
+      select!.value = sort === 'oldest' || sort === 'title' ? sort : 'newest';
+      update();
+    }
+
+    function saveLocation() {
+      const url = new URL(location.href);
+      if (topic) url.searchParams.set('tag', topic);
+      else url.searchParams.delete('tag');
+      if (select!.value !== 'newest') url.searchParams.set('sort', select!.value);
+      else url.searchParams.delete('sort');
+      history.pushState(null, '', url);
+      update();
+    }
+
+    topics.forEach(link => link.addEventListener('click', event => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      topic = link.dataset.topic!;
+      saveLocation();
+    }));
+    root.querySelector('[data-reset]')!.addEventListener('click', event => {
+      event.preventDefault();
+      topic = '';
+      saveLocation();
+    });
+    select.addEventListener('change', saveLocation);
+    window.addEventListener('popstate', readLocation);
+    readLocation();
+  }
+</script>
+
+<style>
+  .blog-index { width: 100%; box-sizing: border-box; max-width: 800px; padding: 0 1.25rem; margin: 2.5rem auto 5rem; }
+  h1 { margin: 0 0 1em; text-align: center; }
+  .topics { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 1.4rem; }
+  .topics a { position: relative; display: inline-block; padding: .4rem 0 .7rem; text-decoration: none; color: var(--text-body); }
+  .topics a[aria-current="true"] { font-weight: 700; color: var(--text-heading); }
+  .topics a[aria-current="true"]::after {
+    content: '';
+    position: absolute;
+    bottom: .1rem;
+    left: -2px;
+    width: calc(100% + 4px);
+    height: 10px;
+    background: currentColor;
+    mask: url('/icons/topic-marker.svg') center / 100% 100% no-repeat;
+  }
+  a:focus-visible, select:focus-visible { outline: 2px solid var(--text-link); outline-offset: 5px; }
+  .topics a:hover, .post-link:hover h2 { color: var(--text-link-hover); }
+  .browse-controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 1rem 0 1.8rem; font-size: .85rem; }
+  .result-count { color: var(--text-muted); margin: 0; }
+  .sort-control { display: flex; align-items: center; gap: .5rem; }
+  select { font: inherit; color: var(--text-body); background: var(--color-base-100); border: 0; border-bottom: 1px solid var(--text-muted); padding: .4rem .2rem; }
+  .reading-list { list-style: none; padding: 0; margin: 0; }
+  .reading-list li { margin: 0 0 1.5rem; padding: 0 0 1.5rem; border-bottom: 1px solid color-mix(in oklab, var(--text-body) 18%, transparent); }
+  .post-link { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 1.5rem; color: inherit; text-decoration: none; }
+  .post-link.without-image { grid-template-columns: 1fr; }
+  .post-link img { width: 110px; height: 110px; object-fit: cover; border-radius: 4px; }
+  h2 { font-size: 1.35rem; line-height: 1.35; margin: 0; }
+  .post-date { font-size: .85rem; margin: .35rem 0 0; color: var(--text-muted); }
+  .post-description { font-size: .95rem; margin: .45rem 0 0; }
+  .post-tags { font-size: .75rem; color: var(--text-muted); margin: .4rem 0 0; }
+  [hidden] { display: none !important; }
+  @media (max-width: 650px) {
+    .blog-index { margin-top: 1.5rem; }
+    .topics { gap: .35rem 1.2rem; }
+    .browse-controls { flex-wrap: wrap; gap: .5rem; align-items: start; }
+    .post-link { grid-template-columns: 75px minmax(0, 1fr); gap: 1rem; }
+    .post-link img { width: 75px; height: 85px; }
+    h2 { font-size: 1.15rem; }
+  }
+</style>
