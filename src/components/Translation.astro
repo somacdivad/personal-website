@@ -1,0 +1,77 @@
+---
+interface Props {
+  original: string;
+  translation: string;
+  author: string;
+  work: string;
+  reference: string;
+  sourceUrl: string;
+  originalLang?: string;
+  originalLabel?: string;
+  translationLang?: string;
+  translationLabel?: string;
+  note?: string;
+  showCitation?: boolean;
+}
+
+const {
+  original, translation, author, work, reference, sourceUrl,
+  originalLang = 'grc', originalLabel = 'Ancient Greek',
+  translationLang = 'en', translationLabel = 'English', note, showCitation = true,
+} = Astro.props;
+---
+
+<figure class="translation">
+  <div class="translation__texts">
+    <div>
+      <p class="translation__language">{originalLabel}</p>
+      <blockquote lang={originalLang} cite={sourceUrl}>{original}</blockquote>
+    </div>
+    <div>
+      <p class="translation__language">{translationLabel}</p>
+      <blockquote lang={translationLang} cite={sourceUrl}>{translation}</blockquote>
+    </div>
+  </div>
+  {showCitation && <figcaption>
+    {author}, <cite>{work}</cite>, <a href={sourceUrl}>{reference}</a>.
+    {note && <span class="translation__note">{note}</span>}
+  </figcaption>}
+</figure>
+
+<style>
+  .translation {
+    margin: 2.5rem 0;
+    padding: 1.5rem 0;
+  }
+  .translation__texts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+  }
+  .translation .translation__language {
+    margin: 0 0 0.6rem;
+    color: var(--text-heading);
+    font-size: 0.9em;
+    font-style: italic;
+  }
+  .translation blockquote {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    color: var(--text-body);
+    font-style: normal;
+    line-height: 1.65;
+  }
+  .translation blockquote[lang="grc"] {
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+  .translation figcaption {
+    margin-top: 1.25rem;
+    font-size: 0.8em;
+    line-height: 1.6;
+  }
+  .translation__note { display: block; margin-top: 0.25rem; }
+  @media (max-width: 600px) {
+    .translation__texts { grid-template-columns: 1fr; gap: 1.5rem; }
+  }
+</style>

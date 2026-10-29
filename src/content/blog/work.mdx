@@ -1,20 +1,84 @@
 ---
 title: "What does work look like?"
+draft: true
 description: ""
 pubDate: 2026-10-28
 heroImage: ../../assets/images/work-windows.png
 ---
 
-Four people in suits burning the midnight oil. One is poised on the edge of his seat with his left foot is hooked around his right leg. The others watch intently as he explains something important enough that his hands must get involved. The austerity of their office is interrupted by small 8" ficus in a white pot next to the printer.
+import { Image } from 'astro:assets';
+import mysteriesFresco from '../../assets/images/villa-of-the-mysteries.jpg';
+import aristotle from '../../assets/images/aristotle-and-his-disciples.jpg';
+import Translation from '../../components/Translation.astro';
 
-A man looks out a city apartment window as the sun rises from behind a red masonry art deco building. A tower thrusts its geometric skeleton up to split the sky, separating a lone, morning-blushed cloud from the rest of the atmosphere.
+Four people in suits burning the midnight oil. One leans forward poised on the edge of his seat with his left foot hooked around his right calf. The others watch intently as he explains something whose importance is punctuated by his hands.
+
+A man looks out from a city apartment window as the sun rises behind an old red masonry art deco building. A tower thrusts its triangulated steel skeleton high above, separating a lone morning-blushed cloud from open sky.
 
 Who in these pictures is getting more work done?
 
-It is a great failure of our age that we call those who sacrifice rest to work late "dedicated," but we dismiss an hour spent looking out a window as "lazy." Doing the hard work sometimes looks like taking it easy.
+It's a great failure of our age that we consider hustle a virtue, but dismiss as lazy a quiet hour by a window spent contemplating what's keeping you from where you need to be. Doing the hard work, it turns out, can sometimes look like taking it easy.
 
 ---
 
-The word "work" 
+**Work** is an ancient word. It comes from the [Proto-Indo-European](https://www.deadlanguagesociety.com/p/what-came-before-english) root *wérǵ*, meaning to "do" or "make." But it's not all about toil. *Wérǵ* can be pleasurable, being also a root of the word *orgia*, which is a Greek word for a good time.
 
-Image sources: [Vitaly Gariev](https://unsplash.com/photos/v6JKMaqAwZE) and [Chris Lynch](https://unsplash.com/photos/dqBPlKsx4p8), via Unsplash.
+*Wérǵ* is also the root of the Greek word *ergon* (ἔργον), which Aristotle uses to describe the "work" or "function" of the human being in his popular thriller *Nichomachean Ethics*:[^aristotle-function]
+
+<Translation
+  original="εἰ δ᾽ ἐστὶν ἔργον ἀνθρώπου ψυχῆς ἐνέργεια κατὰ λόγον ἢ μὴ ἄνευ λόγου, … τὸ ἀνθρώπινον ἀγαθὸν ψυχῆς ἐνέργεια γίνεται κατ᾽ ἀρετήν"
+  translation="If then the function of man is the active exercise of the soul’s faculties in conformity with rational principle, or at all events not in dissociation from rational principle, … the Good of man is the active exercise of his soul’s faculties in conformity with excellence or virtue"
+  author="Aristotle"
+  work="Nicomachean Ethics"
+  reference="Book 1, chapter 7 (1098a7–8, 16–17)"
+  sourceUrl="https://adfonteslibrary.org/work-aristotle-nicomachean-ethics#en-s4-p14"
+  showCitation={false}
+/>
+
+Our life's work, if we believe Aristotle, is to exercise reason (the soul's faculties) and exercise it well (in conformity with virtue). To use our mind to wisely direct our actions. Noble words that are easy to agree with.
+
+<figure class="work-artwork-pair">
+  <div class="work-artwork-pair__images">
+    <a href={mysteriesFresco.src} aria-label="View the full Pompeii fresco photograph">
+      <Image src={mysteriesFresco} alt="Ancient Roman fresco showing Dionysus, Ariadne, satyrs, and other figures against red walls in the Villa of the Mysteries, Pompeii." />
+    </a>
+    <a href={aristotle.src} aria-label="View the full Aristotle fresco">
+      <Image src={aristotle} alt="Aristotle teaching a group of disciples in a fresco by Eduard Lebiedzki, after a design by Karl Rahl." />
+    </a>
+  </div>
+  <figcaption>
+
+People <em>wérǵ</em>ing. Left: Pompeii's <em>Villa of the Mysteries</em>, east wall.[^pompeii-photo] Right: <em>Aristotle and His Disciples</em>, University of Athens.[^aristotle-fresco] Click to see full images.
+
+  </figcaption>
+</figure>
+
+But how do we build a wise society? Fortunately, Aristotle offers us a recipe.[^aristotle-leisure] In his ideal society:
+
+<Translation
+  original="οὔτε βάναυσον βίον οὔτ᾽ ἀγοραῖον δεῖ ζῆν τοὺς πολίτας (ἀγεννὴς γὰρ ὁ τοιοῦτος βίος καὶ πρὸς ἀρετὴν ὑπεναντίος), οὐδὲ δὴ γεωργοὺς εἶναι τοὺς μέλλοντας ἔσεσθαι (δεῖ γὰρ σχολῆς καὶ πρὸς τὴν γένεσιν τῆς ἀρετῆς καὶ πρὸς τὰς πράξεις τὰς πολιτικάς)."
+  translation="the citizens must not lead the life of mechanics or tradesmen, for such a life is ignoble, and inimical to virtue. Neither must they be husbandmen, since leisure is necessary both for the development of virtue and the performance of political duties."
+  author="Aristotle"
+  work="Politics"
+  reference="Book 7, chapter 9 (1328b39–1329a2)"
+  sourceUrl="https://classics.mit.edu/Aristotle/politics.7.seven.html"
+  showCitation={false}
+/>
+
+Wait, wait, wait. Let me get this straight. You're saying the best way to grow a wise society is to have a class of laborers supporting a life of leizure for a governing class who get to spend their all their free time flourishing?
+
+Two classes, both *wérǵ*ing. Who is *wérǵ*ing harder?
+
+What Aristotle shows us is that too much contemplation can cause confusion, but it's nothing a bit of gardening or pottery or woodworking or weaving or milling or hammering or digging can't cure.
+
+---
+
+Cover image sources: [Vitaly Gariev](https://unsplash.com/photos/v6JKMaqAwZE) and [Chris Lynch](https://unsplash.com/photos/dqBPlKsx4p8), via Unsplash.
+
+[^aristotle-function]: Aristotle, *The Nicomachean Ethics*, Book 1, chapter 7 (1098a7–8, 16–17), translated by H. Rackham, Loeb Classical Library 73 (London: William Heinemann; New York: G. P. Putnam’s Sons, 1926). English passage via [Ad Fontes Library](https://adfonteslibrary.org/work-aristotle-nicomachean-ethics#en-s4-p14).
+
+[^aristotle-leisure]: Aristotle, *Politics*, Book 7, chapter 9 (1328b39–1329a2). English translation by Benjamin Jowett, [Internet Classics Archive, MIT](https://classics.mit.edu/Aristotle/politics.7.seven.html); [Greek text](https://aristotle.johnhboyer.com/Pol/book/7/). By “mechanics” is meant artisans or craftspeople. The term “husbandmen” refers to farmers.
+
+[^pompeii-photo]: Yair Haklai, “[Villa of the Mysteries (Pompeii) — Hall of the Mysteries (East wall)](https://commons.wikimedia.org/wiki/File:Villa_of_the_Mysteries_(Pompeii)_-_Hall_of_the_Mysteries_(East_wall).jpg),” photograph, October 1, 2023, Wikimedia Commons. © 2023 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+
+[^aristotle-fresco]: Lebiedzki, Eduard, after a design by Karl Rahl. *Aristotle and His Disciples*, circa 1888. Detail of a facade fresco, National and Kapodistrian University of Athens. Digital reproduction via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Aristotle_and_his_disciples_Lebiedzki_Rahl.jpg), which lists it as public domain.
