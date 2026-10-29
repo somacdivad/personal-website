@@ -138,6 +138,29 @@ b {
 	font-weight: 700;
 }
 
+/* Native thematic breaks cycle through five quiet ink strokes in BaseLayout. */
+hr {
+    --divider-image: url('/icons/dividers/01.svg');
+    width: min(13rem, 65%);
+    height: 2.6rem;
+    margin: 2.5rem auto;
+    padding: 0;
+    border: 0;
+    background-color: var(--text-heading);
+    -webkit-mask: var(--divider-image) center / contain no-repeat;
+    mask: var(--divider-image) center / contain no-repeat;
+}
+
+@media (forced-colors: active) {
+    hr {
+        height: 0;
+        border-top: 2px solid CanvasText;
+        background: none;
+        -webkit-mask: none;
+        mask: none;
+    }
+}
+
 .navbar-end {
     gap: 0.5rem;
 }

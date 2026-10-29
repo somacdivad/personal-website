@@ -24,3 +24,17 @@ const pageTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
 		<Footer />
 	</body>
 </html>
+
+<script>
+	const dividerStrokes = ['01', '02', '03', '05', '18'];
+
+	function applyDividerCycle() {
+		document.querySelectorAll<HTMLHRElement>('hr').forEach((rule, index) => {
+			const stroke = dividerStrokes[index % dividerStrokes.length];
+			rule.style.setProperty('--divider-image', `url('/icons/dividers/${stroke}.svg')`);
+		});
+	}
+
+	applyDividerCycle();
+	document.addEventListener('astro:page-load', applyDividerCycle);
+</script>
