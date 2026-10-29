@@ -6,7 +6,19 @@
 }
 
 
+/* Text follows each theme's ink and accent colors, including system dark mode. */
+:root,
+[data-theme] {
+    --text-body: color-mix(in oklab, var(--color-base-content) 92%, var(--color-secondary));
+    --text-heading: color-mix(in oklab, var(--color-base-content) 78%, var(--color-secondary));
+    --text-muted: color-mix(in oklab, var(--text-body) 76%, var(--color-base-100));
+    --text-link: color-mix(in oklab, var(--color-base-content) 50%, var(--color-secondary));
+    --text-link-hover: color-mix(in oklab, var(--color-base-content) 65%, var(--color-primary));
+}
+
+
 body {
+    color: var(--text-body);
 	font-family: "Source Serif 4", Georgia, serif;
 	font-optical-sizing: auto;
 	margin: 0;
@@ -32,6 +44,7 @@ h4,
 h5,
 h6 {
     @apply heading-font;
+    color: var(--text-heading);
     line-height: 1.25;
     text-wrap: balance;
 }
@@ -81,10 +94,13 @@ main {
     }
 
     a {
-        @apply text-secondary;
+        color: var(--text-link);
+        text-decoration: underline;
+        text-underline-offset: 0.15em;
     }
     a:hover {
-        @apply text-primary underline;
+        color: var(--text-link-hover);
+        text-decoration: underline;
     }
 
     a[href^="http"]::after {
@@ -101,7 +117,7 @@ main {
         mask-size: contain;
 
         /* Change this to any color you want! */
-        background-color: var(--color-base-content);
+        background-color: currentColor;
     }
 
     ul,ol {
@@ -127,7 +143,7 @@ b {
 }
 
 .navbar a {
-    color: var(--color-base-content);
+    color: var(--text-body);
 }
 
 .apple-music-embed {
@@ -140,17 +156,18 @@ blockquote {
     margin-left: 0;
     margin-right: 0;
     padding-left: 1em;
-    color: rgb(var(--gray));
+    color: var(--text-muted);
     font-style: italic;
 }
 
-footer a {
-    color: var(--color-base-content);
+footer { color: var(--text-muted); }
 
-    :hover {
-        color: inherit;
-    }
-}
+footer a { color: var(--text-body); }
+
+.navbar a:hover,
+footer a:hover { color: var(--text-link); }
+
+.navbar .heading-font { color: var(--text-heading); }
 
 .blog-posts {
     ul {
@@ -188,16 +205,16 @@ footer a {
     }
     .title {
         margin: 0;
-        color: rgb(var(--black));
+        color: var(--text-heading);
         line-height: 1.25;
     }
     .date {
         margin: 0;
-        color: rgb(var(--gray));
+        color: var(--text-muted);
     }
     ul li a:hover h4,
     ul li a:hover .date {
-        color: rgb(var(--accent));
+        color: var(--text-link-hover);
     }
     ul a:hover img {
         box-shadow: var(--box-shadow);
@@ -243,7 +260,7 @@ article {
     }
     .date {
         margin-bottom: 0.5em;
-        color: rgb(var(--gray));
+        color: var(--text-muted);
     }
     .last-updated-on {
         font-style: italic;
