@@ -1,0 +1,22 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BlogPost from '../../layouts/BlogPost.astro';
+import { validatePreviewTokens } from '../../lib/draft-previews.mjs';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  validatePreviewTokens(posts);
+  return posts.filter(post => post.data.draft && post.data.previewToken).map(post => ({
+    params: { token: post.data.previewToken },
+    props: { post },
+  }));
+}
+
+interface Props { post: CollectionEntry<'blog'> }
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BlogPost {...post.data} preview={true}>
+  <Content />
+</BlogPost>

@@ -13,5 +13,7 @@ export default defineConfig({
     vite: {
         plugins: [tailwindcss()],
     },
-    integrations: [mdx(), sitemap(), icon()],
+    integrations: [mdx(), sitemap({
+        filter: page => !new URL(page).pathname.startsWith('/preview/'),
+    }), icon()],
 });
