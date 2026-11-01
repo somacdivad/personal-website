@@ -6,6 +6,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "test:video-pair": "node --test scripts/video-pair.test.mjs",
+    "test:quotes": "node --test scripts/quotes.test.mjs",
+    "format:sentences": "node scripts/format-sentences.mjs",
+    "test:sentence-format": "node --test scripts/sentence-format.test.mjs",
     "draft:share": "node scripts/draft-sharing.mjs share",
     "draft:unshare": "node scripts/draft-sharing.mjs unshare",
     "astro": "astro"
@@ -23,6 +27,11 @@
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
-    "js-yaml": "^4.1.1"
+    "js-yaml": "^4.1.1",
+    "remark-frontmatter": "^5.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-mdx": "^3.1.1",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.5"
   }
 }

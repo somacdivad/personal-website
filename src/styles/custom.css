@@ -175,13 +175,44 @@ hr {
 }
 
 blockquote {
-    border-left: 4px solid var(--color-accent);
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 1em;
-    color: var(--text-muted);
+    position: relative;
+    border: 0;
+    margin: 2rem 0;
+    padding: 0.5rem 0 0 2.1rem;
+    color: var(--text-heading);
     font-style: italic;
 }
+
+blockquote::before {
+    content: "“" / "";
+    position: absolute;
+    top: -0.55rem;
+    left: -0.3rem;
+    font-family: "Permanent Marker", cursive;
+    font-size: 5rem;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+}
+
+blockquote > p { margin: 0 0 0.8em; }
+
+blockquote > :last-child { margin-bottom: 0; }
+
+/* Optional attribution, written as a native footer inside the quote. */
+blockquote footer {
+    margin-top: 1.2rem;
+    color: var(--text-muted);
+    font-size: 0.8em;
+    font-style: normal;
+    line-height: 1.6;
+}
+
+blockquote footer p { margin: 0; }
+
+blockquote footer a { color: var(--text-link); }
 
 footer { color: var(--text-muted); }
 

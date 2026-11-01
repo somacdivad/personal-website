@@ -1,0 +1,33 @@
+---
+interface Props {
+  src: string;
+  poster: string;
+  label: string;
+}
+
+const { src, poster, label } = Astro.props;
+---
+
+<figure class="video-figure">
+  <video src={src} poster={poster} aria-label={label} controls playsinline muted preload="none">
+    <a href={src}>Download video: {label}</a>
+  </video>
+  {Astro.slots.has('default') && <figcaption><slot /></figcaption>}
+</figure>
+
+<style>
+  .video-figure { margin: 2.5rem 0; }
+  video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin: 0;
+    object-fit: contain;
+    background: #000;
+  }
+  figcaption {
+    margin-top: 0.85rem;
+    font-size: 0.8em;
+    line-height: 1.6;
+  }
+</style>

@@ -1,0 +1,51 @@
+---
+interface Video {
+  src: string;
+  poster: string;
+  label: string;
+}
+
+interface Props {
+  left: Video;
+  right: Video;
+}
+
+const { left, right } = Astro.props;
+---
+
+<figure class="video-pair">
+  <div class="video-pair__players">
+    {[left, right].map(({ src, poster, label }) => (
+      <video src={src} poster={poster} aria-label={label} controls playsinline muted preload="none">
+        <a href={src}>Download video: {label}</a>
+      </video>
+    ))}
+  </div>
+  {Astro.slots.has('default') && <figcaption><slot /></figcaption>}
+</figure>
+
+<style>
+  .video-pair { margin: 2.5rem 0; }
+  .video-pair__players {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+  video {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 16 / 9;
+    margin: 0;
+    object-fit: contain;
+    background: #000;
+  }
+  figcaption {
+    margin-top: 0.85rem;
+    font-size: 0.8em;
+    line-height: 1.6;
+  }
+  @media (max-width: 600px) {
+    .video-pair__players { grid-template-columns: 1fr; }
+  }
+</style>
