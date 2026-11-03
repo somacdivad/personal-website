@@ -46,10 +46,10 @@ The default slot contains the article body. The hero uses Astro's `Image`
 component with width 1020, height 510, and empty alt text. A divider separates
 the heading area from the body. Dates use [FormattedDate](formatted-date.md).
 
-The blog route enables `showNewsletter` to show
+The blog and story routes enable `showNewsletter` to show
 [NewsletterSignup](newsletter-signup.md) after the article body. Draft previews
 and other pages using this layout omit the signup form by default.
-It also enables `showSupport` to place [KoFiButton](ko-fi-button.md) above the
+They also enable `showSupport` to place [KoFiButton](ko-fi-button.md) above the
 signup form's divider. Draft previews and other pages omit the support button
 by default.
 

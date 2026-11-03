@@ -17,6 +17,7 @@ draft: true
 
 Write the story after the closing `---`.
 The route supplies the site's article layout, so no layout import is needed.
+Story pages include the Ko-fi support button and newsletter signup form below the story.
 Optional fields are `updatedDate` and `heroImage`.
 Image paths are relative to the story file, as they are for blog posts.
 

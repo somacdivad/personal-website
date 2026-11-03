@@ -2,7 +2,7 @@
 
 [Source](../src/components/NewsletterSignup.astro). A newsletter signup form
 connected to David Amos's Buttondown account. It appears on the homepage and
-below published blog posts. Unlisted draft previews omit it.
+below published blog posts and stories. Unlisted draft previews omit it.
 
 ```astro
 ---
@@ -25,6 +25,8 @@ handwritten divider and the heading ink color for the Subscribe button.
 It places the email field
 beside the Subscribe button when space allows and stacks them on narrow screens.
 The email field has a visible label, email autofill, and native browser validation.
+Below the form, the Buttondown credit sits beside a "Prefer RSS? Subscribe here"
+link to `/rss.xml`, the combined feed for blog posts and stories.
 
 Submission uses a standard HTML POST to Buttondown. Buttondown handles the next
 step, including any verification or errors. The form needs no API key or client

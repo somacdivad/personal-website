@@ -37,12 +37,13 @@ const {
 			<input type="hidden" name="embed" value="1" />
 			<button type="submit" class="btn newsletter-signup__submit">Subscribe</button>
 		</div>
-		<p class="newsletter-signup__credit">
-			<a href="https://buttondown.com/refer/davidamos" target="_blank" rel="noopener noreferrer">
-				Powered by Buttondown.
-			</a>
-		</p>
 	</form>
+	<p class="newsletter-signup__credit">
+		<a href="https://buttondown.com/refer/davidamos" target="_blank" rel="noopener noreferrer">
+			Powered by Buttondown.
+		</a>
+		<a href="/rss.xml">Prefer RSS? Subscribe here</a>
+	</p>
 </section>
 
 <style>
@@ -103,12 +104,27 @@ const {
 	}
 
 	.newsletter-signup__credit {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.5rem 0.75rem;
 		margin: 0.75rem 0 0;
 		font-size: 0.8rem;
 	}
 
 	.newsletter-signup__credit a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3em;
 		color: var(--text-muted);
+		line-height: 1.5;
+	}
+
+	.newsletter-signup__credit a[href^="http"]::after {
+		flex: 0 0 auto;
+		width: 0.85em;
+		height: 0.85em;
+		margin-left: 0;
 	}
 
 	.newsletter-signup__credit a:hover {
