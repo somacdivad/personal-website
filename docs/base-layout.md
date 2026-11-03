@@ -22,6 +22,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 | `description` | No | Falls back to `SITE_DESCRIPTION` when null or undefined. |
 | `image` | No | Imported Astro image metadata passed to BaseHead. |
 | `preview` | No | Boolean, default `false`, passed to BaseHead. |
+| `noindex` | No | Boolean, default `false`, passed to BaseHead for utility pages. |
 
 The default slot holds page content between [Header](header.md) and
 [Footer](footer.md). The layout does not insert a `<main>` around that content.

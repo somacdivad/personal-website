@@ -14,6 +14,6 @@ export default defineConfig({
         plugins: [tailwindcss()],
     },
     integrations: [mdx(), sitemap({
-        filter: page => !new URL(page).pathname.startsWith('/preview/'),
+        filter: page => !['/preview/', '/newsletter/'].some(prefix => new URL(page).pathname.startsWith(prefix)),
     }), icon()],
 });

@@ -4,7 +4,7 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE, SOCIAL_LINKS } from '../consts';
 
-const { title, description, image, preview = false } = Astro.props;
+const { title, description, image, preview = false, noindex = false } = Astro.props;
 
 const pageTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
 ---
@@ -17,6 +17,7 @@ const pageTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
 			description={description ?? SITE_DESCRIPTION}
 			image={image}
 			preview={preview}
+			noindex={noindex}
 		/>
 	</head>
 	<body>

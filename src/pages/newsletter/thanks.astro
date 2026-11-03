@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+	title="Thanks for subscribing"
+	description="Your subscription to David Amos's newsletter is confirmed."
+	noindex
+>
+	<main>
+		<h1>Thanks for subscribing!</h1>
+		<p>
+			You're all set. You'll get weekly updates from my blog by email.
+		</p>
+		<p>Thanks for reading. I'm glad you're here.</p>
+		<hr />
+		<p><a href="/blog">Read the latest posts</a>.</p>
+	</main>
+</BaseLayout>
+
+<style>
+	main {
+		min-height: 60vh;
+		padding-block: 4rem;
+	}
+</style>

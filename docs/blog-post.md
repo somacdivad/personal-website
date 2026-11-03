@@ -32,6 +32,7 @@ inside a normal blog MDX post; the blog route already supplies this wrapper.
 | `heroImage` | No | Astro image metadata, usually resolved from frontmatter. |
 | `tags` | No | String array, default `[]`; creates tag-page links. |
 | `preview` | No | Boolean, default `false`; forwarded to BaseLayout. |
+| `showNewsletter` | No | Boolean, default `false`; adds the signup form after the body when this is not a preview. |
 
 Props use the blog collection schema in
 [content.config.ts](../src/content.config.ts), plus `preview`. The `draft` and
@@ -41,6 +42,10 @@ Setting `preview` here does not itself create an unlisted URL.
 The default slot contains the article body. The hero uses Astro's `Image`
 component with width 1020, height 510, and empty alt text. A divider separates
 the heading area from the body. Dates use [FormattedDate](formatted-date.md).
+
+The blog route enables `showNewsletter` to show
+[NewsletterSignup](newsletter-signup.md) after the article body. Draft previews
+and other pages using this layout omit the signup form by default.
 
 Current behavior: the last-updated line only appears when
 `updatedDate.getDate() > pubDate.getDate()`. This compares days of the month,

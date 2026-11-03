@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+	title="Check your inbox"
+	description="Confirm your email address to finish subscribing to David Amos's newsletter."
+	noindex
+>
+	<main>
+		<h1>Check your inbox</h1>
+		<p>
+			Just one more step: Click the confirmation link in the email from
+			Buttondown to finish subscribing.
+		</p>
+		<p>
+			If you don't see it after a few minutes, check your spam folder.
+		</p>
+		<hr />
+		<p>While you wait, <a href="/blog">read the latest posts</a>.</p>
+	</main>
+</BaseLayout>
+
+<style>
+	main {
+		min-height: 60vh;
+		padding-block: 4rem;
+	}
+</style>

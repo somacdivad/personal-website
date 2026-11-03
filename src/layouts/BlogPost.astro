@@ -3,11 +3,12 @@ import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
 
 
-type Props = CollectionEntry<'blog'>['data'] & { preview?: boolean };
+type Props = CollectionEntry<'blog'>['data'] & { preview?: boolean; showNewsletter?: boolean };
 
-const { title, description, pubDate, updatedDate, heroImage, tags = [], preview = false } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags = [], preview = false, showNewsletter = false } = Astro.props;
 ---
 
 <BaseLayout
@@ -44,6 +45,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [], preview 
 			</div>
 			<main>
 				<slot />
+				{showNewsletter && !preview && <NewsletterSignup />}
 			</main>
 		</div>
 	</article>
