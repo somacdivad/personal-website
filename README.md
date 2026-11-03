@@ -2,6 +2,11 @@
 
 My personal website and blog at [davidamoswrites.com](https://davidamoswrites.com).
 Built with Astro and hosted on Vercel. Posts live in `src/content/blog/`.
+Stories live in `src/content/stories/`; see the [writing guide](docs/stories.md).
+
+RSS feeds: `/rss.xml` includes blog posts and stories, `/blog/rss.xml` includes
+blog posts only, and `/stories/rss.xml` includes stories only.
+All three list the newest items first and omit drafts in production.
 
 ## Local development
 

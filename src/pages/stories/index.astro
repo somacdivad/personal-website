@@ -1,0 +1,11 @@
+---
+import { getStories } from '../../lib/stories';
+import CollectionIndex from '../../components/CollectionIndex.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const stories = await getStories();
+---
+
+<BaseLayout title="Stories" description="Stories by David Amos.">
+  <CollectionIndex entries={stories} title="Stories" basePath="/stories" itemLabel="story" itemPlural="stories" />
+</BaseLayout>

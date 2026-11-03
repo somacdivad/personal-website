@@ -1,0 +1,17 @@
+---
+import { getStories } from '../../../lib/stories';
+import CollectionIndex from '../../../components/CollectionIndex.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const stories = await getStories();
+  const tags = [...new Set(stories.flatMap(story => story.data.tags))];
+  return tags.map(tag => ({ params: { tag }, props: { stories, tag } }));
+}
+
+const { stories, tag } = Astro.props;
+---
+
+<BaseLayout title={`Stories tagged with ${tag}`} description={`Stories by David Amos tagged with ${tag}.`}>
+  <CollectionIndex entries={stories} title="Stories" basePath="/stories" itemLabel="story" itemPlural="stories" initialTopic={tag} />
+</BaseLayout>

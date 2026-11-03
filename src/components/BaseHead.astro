@@ -28,8 +28,20 @@ const { title, description, image = FallbackImage, preview = false, noindex = fa
 <link
 	rel="alternate"
 	type="application/rss+xml"
-	title={SITE_TITLE}
+	title={`${SITE_TITLE} — Blog and Stories`}
 	href={new URL('rss.xml', Astro.site)}
+/>
+<link
+	rel="alternate"
+	type="application/rss+xml"
+	title={`${SITE_TITLE} — Blog`}
+	href={new URL('blog/rss.xml', Astro.site)}
+/>
+<link
+	rel="alternate"
+	type="application/rss+xml"
+	title={`${SITE_TITLE} — Stories`}
+	href={new URL('stories/rss.xml', Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
 

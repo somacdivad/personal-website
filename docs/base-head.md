@@ -22,7 +22,10 @@ import BaseHead from '../components/BaseHead.astro';
 | `noindex` | No | Boolean, default `false`; adds the robots directive used to keep utility pages out of search results. |
 
 This component imports the global custom stylesheet. It includes favicon,
-sitemap, RSS, generator, and profile links. Normal pages also get a canonical
+sitemap, RSS, generator, and profile links.
+RSS links advertise the combined feed at `/rss.xml`, the blog feed at
+`/blog/rss.xml`, and the stories feed at `/stories/rss.xml`.
+Normal pages also get a canonical
 URL, Open Graph and Twitter metadata, and Vercel Analytics. The canonical URL
 uses the current pathname and the configured production `site` URL.
 

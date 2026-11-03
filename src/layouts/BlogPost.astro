@@ -7,9 +7,15 @@ import NewsletterSignup from '../components/NewsletterSignup.astro';
 import KoFiButton from '../components/KoFiButton.astro';
 
 
-type Props = CollectionEntry<'blog'>['data'] & { preview?: boolean; showNewsletter?: boolean; showSupport?: boolean };
+type Props = Pick<CollectionEntry<'blog'>['data'], 'title' | 'description' | 'pubDate' | 'updatedDate' | 'heroImage'> & {
+	tags?: string[];
+	tagBasePath?: string;
+	preview?: boolean;
+	showNewsletter?: boolean;
+	showSupport?: boolean;
+};
 
-const { title, description, pubDate, updatedDate, heroImage, tags = [], preview = false, showNewsletter = false, showSupport = false } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags = [], tagBasePath = '/blog/tags', preview = false, showNewsletter = false, showSupport = false } = Astro.props;
 ---
 
 <BaseLayout
@@ -38,7 +44,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [], preview 
 				{tags.length > 0 && (
 					<div class="flex flex-row justify-center gap-2 mb-7">
 						{tags.map((tag: string) => (
-							<a href={`/blog/tags/${tag}/`} class="badge badge-soft badge-accent">{tag}</a>
+							<a href={`${tagBasePath}/${encodeURIComponent(tag)}/`} class="badge badge-soft badge-accent">{tag}</a>
 						))}
 					</div>
 				)}

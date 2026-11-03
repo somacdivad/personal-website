@@ -19,6 +19,8 @@ repository docs, not published site routes.
 | [KoFiOverlay](ko-fi-overlay.md) | Floating Ko-fi support widget, omitted from the homepage and draft previews. |
 | [BaseLayout](base-layout.md) | Shared page shell and the rotating handwritten dividers. |
 | [BlogPost](blog-post.md) | Article layout, hero image, dates, tags, and content. |
+| [Stories](stories.md) | Add stories and control draft visibility. |
+| [CollectionIndex](collection-index.md) | Shared blog and stories list, topic filters, sorting, and RSS link. |
 | [Draft previews](draft-previews.md) | Keep drafts unpublished and share an unlisted preview link. |
 | [Sentence formatting](sentence-format.md) | Put prose sentences on separate source lines in Markdown and MDX. |
 

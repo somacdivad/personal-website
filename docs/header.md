@@ -12,7 +12,7 @@ import Header from '../components/Header.astro';
 ```
 
 There are no props or slots. The brand links home. Navigation contains Home,
-Philosophy, Blog, and Commonbook. Large screens use horizontal links; smaller
+Philosophy, Blog, and Stories, in that order. Large screens use horizontal links; smaller
 screens use a dropdown. The two navigation lists are separate in the source,
 so update both when changing links.
 
