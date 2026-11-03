@@ -15,6 +15,8 @@ repository docs, not published site routes.
 | [Header](header.md) | Site navigation and the saved light/dark theme choice. |
 | [Footer](footer.md) | Social links and the copyright line. |
 | [NewsletterSignup](newsletter-signup.md) | Buttondown signup form with site fonts and light/dark theme colors. |
+| [KoFiButton](ko-fi-button.md) | Ko-fi support button shown above the signup form on blog posts. |
+| [KoFiOverlay](ko-fi-overlay.md) | Floating Ko-fi support widget, omitted from the homepage and draft previews. |
 | [BaseLayout](base-layout.md) | Shared page shell and the rotating handwritten dividers. |
 | [BlogPost](blog-post.md) | Article layout, hero image, dates, tags, and content. |
 | [Draft previews](draft-previews.md) | Keep drafts unpublished and share an unlisted preview link. |

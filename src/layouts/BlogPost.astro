@@ -4,11 +4,12 @@ import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
+import KoFiButton from '../components/KoFiButton.astro';
 
 
-type Props = CollectionEntry<'blog'>['data'] & { preview?: boolean; showNewsletter?: boolean };
+type Props = CollectionEntry<'blog'>['data'] & { preview?: boolean; showNewsletter?: boolean; showSupport?: boolean };
 
-const { title, description, pubDate, updatedDate, heroImage, tags = [], preview = false, showNewsletter = false } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags = [], preview = false, showNewsletter = false, showSupport = false } = Astro.props;
 ---
 
 <BaseLayout
@@ -45,6 +46,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [], preview 
 			</div>
 			<main>
 				<slot />
+				{showSupport && !preview && <KoFiButton />}
 				{showNewsletter && !preview && <NewsletterSignup />}
 			</main>
 		</div>

@@ -30,6 +30,9 @@ It sets the document language to English and the base theme to `bumblebee`.
 Site title and description defaults live in [consts.ts](../src/consts.ts).
 See [BaseHead](base-head.md) for metadata and analytics behavior.
 
+[KoFiOverlay](ko-fi-overlay.md) loads just before the closing body tag on all
+pages except the homepage and draft previews.
+
 A browser script cycles all `<hr>` elements through divider strokes `01`,
 `02`, `03`, `05`, and `18`, in document order. The assets live in
 `public/icons/dividers/`. It runs initially and on `astro:page-load`.

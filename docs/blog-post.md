@@ -33,9 +33,10 @@ inside a normal blog MDX post; the blog route already supplies this wrapper.
 | `tags` | No | String array, default `[]`; creates tag-page links. |
 | `preview` | No | Boolean, default `false`; forwarded to BaseLayout. |
 | `showNewsletter` | No | Boolean, default `false`; adds the signup form after the body when this is not a preview. |
+| `showSupport` | No | Boolean, default `false`; adds the Ko-fi button after the body when this is not a preview. |
 
 Props use the blog collection schema in
-[content.config.ts](../src/content.config.ts), plus `preview`. The `draft` and
+[content.config.ts](../src/content.config.ts), plus `preview`, `showNewsletter`, and `showSupport`. The `draft` and
 `previewToken` fields determine visibility in routing code, not in this layout.
 Setting `preview` here does not itself create an unlisted URL.
 
@@ -46,6 +47,9 @@ the heading area from the body. Dates use [FormattedDate](formatted-date.md).
 The blog route enables `showNewsletter` to show
 [NewsletterSignup](newsletter-signup.md) after the article body. Draft previews
 and other pages using this layout omit the signup form by default.
+It also enables `showSupport` to place [KoFiButton](ko-fi-button.md) above the
+signup form's divider. Draft previews and other pages omit the support button
+by default.
 
 Current behavior: the last-updated line only appears when
 `updatedDate.getDate() > pubDate.getDate()`. This compares days of the month,

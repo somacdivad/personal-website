@@ -1,0 +1,49 @@
+<script is:inline src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
+<script is:inline>
+	(() => {
+		// Resolve theme colors in the page before passing them into Ko-fi's frames.
+		const themeSample = document.createElement('span');
+		themeSample.hidden = true;
+		themeSample.style.backgroundColor = 'var(--text-heading)';
+		themeSample.style.color = 'var(--color-base-100)';
+		themeSample.style.borderRadius = 'var(--radius-field)';
+		document.body.append(themeSample);
+
+		const initialColors = getComputedStyle(themeSample);
+		kofiWidgetOverlay.draw('davidamoswrites', {
+			'type': 'floating-chat',
+			'floating-chat.donateButton.text': 'Support me',
+			'floating-chat.donateButton.background-color': initialColors.backgroundColor,
+			'floating-chat.donateButton.text-color': initialColors.color,
+			'floating-chat.stylesheets': JSON.stringify([
+				'https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700&display=swap'
+			])
+		});
+
+		function syncTheme() {
+			const colors = getComputedStyle(themeSample);
+			const font = getComputedStyle(document.body).fontFamily;
+			document.querySelectorAll('iframe.floatingchat-container, iframe.floatingchat-container-mobi').forEach((frame) => {
+				const button = frame.contentDocument?.querySelector('.floatingchat-donate-button');
+				if (!button) return;
+				button.style.backgroundColor = colors.backgroundColor;
+				button.style.borderRadius = colors.borderRadius;
+				button.style.setProperty('font-family', font, 'important');
+				const label = button.querySelector('span');
+				if (label) label.style.color = colors.color;
+			});
+		}
+
+		syncTheme();
+		document.addEventListener('change', (event) => {
+			if (event.target instanceof HTMLInputElement && event.target.classList.contains('theme-controller')) {
+				syncTheme();
+			}
+		});
+		new MutationObserver(syncTheme).observe(document.documentElement, {
+			attributes: true,
+			attributeFilter: ['data-theme', 'class', 'style']
+		});
+		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncTheme);
+	})();
+</script>
