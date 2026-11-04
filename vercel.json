@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/philosophy", "destination": "/about/philosophy/", "permanent": true },
+    { "source": "/philosophy/", "destination": "/about/philosophy/", "permanent": true },
+    { "source": "/reading", "destination": "/about/reading/", "permanent": true },
+    { "source": "/reading/", "destination": "/about/reading/", "permanent": true },
+    { "source": "/reading/:path*", "destination": "/about/reading/:path*", "permanent": true }
+  ]
+}

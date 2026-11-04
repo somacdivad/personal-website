@@ -1,31 +1,31 @@
 ---
-import { Icon } from 'astro-icon/components'
+import { Icon } from 'astro-icon/components';
+import HeaderLinks from './HeaderLinks.astro';
+import { READING_BASE, READING_TITLE } from '../lib/reading';
+
+const items = [
+  { label: 'Home', href: '/' },
+  { label: 'About me', children: [
+    { label: 'My philosophy', href: '/about/philosophy/' },
+    { label: READING_TITLE, href: READING_BASE },
+  ] },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Stories', href: '/stories' },
+];
 ---
 
-<div class="navbar bg-base-100 shadow-md">
+<nav class="navbar bg-base-100 shadow-md" aria-label="Main navigation" data-site-navigation>
   <div class="navbar-start">
-    <div class="dropdown">
-      <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+    <details class="mobile-navigation lg:hidden" data-nav-disclosure>
+      <summary class="btn btn-ghost" aria-label="Navigation menu">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /> </svg>
-      </div>
-      <ul
-        tabindex="-1"
-        class="menu menu-lg dropdown-content bg-base-200 rounded-box shadow-xl z-1000 mt-3 w-52 p-2 shadow">
-        <li><a href="/">Home</a></li>
-        <li><a href="/philosophy">Philosophy</a></li>
-        <li><a href="/blog">Blog</a></li>
-        <li><a href="/stories">Stories</a></li>
-      </ul>
-    </div>
+      </summary>
+      <div class="mobile-menu bg-base-200 rounded-box shadow-xl"><HeaderLinks items={items} mobile /></div>
+    </details>
     <a class="btn btn-link text-2xl heading-font no-underline" href="/">david amos</a>
   </div>
   <div class="navbar-center hidden lg:flex">
-    <ul class="menu menu-horizontal px-1 text-lg">
-      <li><a href="/">Home</a></li>
-      <li><a href="/philosophy">Philosophy</a></li>
-      <li><a href="/blog">Blog</a></li>
-      <li><a href="/stories">Stories</a></li>
-    </ul>
+    <HeaderLinks items={items} />
   </div>
   <div class="navbar-end">
     <a class="btn btn-square btn-ghost pt-0 mt-0">
@@ -41,7 +41,48 @@ import { Icon } from 'astro-icon/components'
       </label>
     </a>
   </div>
-</div>
+</nav>
+
+<style>
+  .mobile-navigation { position: relative; }
+  .mobile-navigation > summary { list-style: none; }
+  .mobile-navigation > summary::-webkit-details-marker { display: none; }
+  .mobile-navigation > summary:focus-visible { outline: 2px solid var(--text-link); outline-offset: 2px; }
+  .mobile-menu { position: absolute; z-index: 1000; top: calc(100% + .75rem); left: 0; width: min(17rem, calc(100vw - 2rem)); }
+</style>
+
+<script>
+  const navigation = document.querySelector<HTMLElement>('[data-site-navigation]');
+  if (navigation) {
+    const disclosures = [...navigation.querySelectorAll<HTMLDetailsElement>('[data-nav-disclosure]')];
+    function close(details: HTMLDetailsElement) {
+      details.open = false;
+      details.querySelectorAll<HTMLDetailsElement>('details').forEach(child => child.open = false);
+    }
+    disclosures.forEach(details => details.addEventListener('toggle', () => {
+      if (!details.open) close(details);
+    }));
+    document.addEventListener('click', event => {
+      if (!(event.target instanceof Node)) return;
+      disclosures.forEach(details => { if (!details.contains(event.target as Node)) close(details); });
+    });
+    navigation.addEventListener('focusout', event => {
+      if (!(event.relatedTarget instanceof Node)) return;
+      disclosures.forEach(details => { if (!details.contains(event.relatedTarget as Node)) close(details); });
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Escape') return;
+      const focused = event.target instanceof Element ? event.target.closest<HTMLDetailsElement>('details[open][data-nav-disclosure]') : null;
+      const details = focused ?? [...disclosures].reverse().find(item => item.open);
+      if (!details) return;
+      event.preventDefault();
+      close(details);
+      details.querySelector<HTMLElement>('summary')?.focus();
+    });
+    window.addEventListener('pageshow', () => disclosures.forEach(close));
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', () => disclosures.forEach(close));
+  }
+</script>
 
 <script is:inline>
   const themeToggle = document.querySelector('input.theme-controller[type="checkbox"]');
