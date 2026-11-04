@@ -28,32 +28,30 @@
 .reading-note-preview { margin-top: .9rem; font-size: .95rem; }
 .reading-note-preview > p { margin-bottom: .3rem; }
 .reading-small-link { font-size: .8rem; }
-.reading-tags { display: flex; flex-wrap: wrap; gap: .25rem .8rem; }
-.reading-tools { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem 1rem; margin: 1.3rem 0; font-size: .8rem; }
-.reading-tools p { margin: 0; }
-.reading-rss { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; }
-.reading-filters { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid color-mix(in oklab, var(--text-body) 18%, transparent); font-size: .85rem; }
+.reading-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.5rem; margin: 1.3rem 0; padding-bottom: 1rem; border-bottom: 1px solid color-mix(in oklab, var(--text-body) 18%, transparent); font-size: .85rem; }
+.reading-rss { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; margin-inline-start: auto; }
 .reading-kinds { display: flex; flex-wrap: wrap; gap: 1rem; }
 .reading-kinds button, .reading-reset { font: inherit; color: var(--text-link); background: none; border: 0; padding: .4rem 0; cursor: pointer; }
-.reading-kinds button[aria-pressed="true"] { color: var(--text-heading); text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 7px; }
-.reading-filters label { display: flex; align-items: center; gap: .4rem; }
-.reading-filters select { color: var(--text-body); background: var(--color-base-100); border: 1px solid color-mix(in oklab, var(--text-body) 25%, transparent); border-radius: 4px; font: inherit; padding: .35rem; max-width: 100%; }
+.reading-kinds button { padding-bottom: .7rem; }
+.reading-kinds button[aria-pressed="true"] { color: var(--text-heading); }
 .reading-reset { text-decoration: underline; }
-.reading-journal :is(a, button, select, summary):focus-visible, .reading-work a:focus-visible { outline: 2px solid var(--text-link); outline-offset: 4px; }
+.reading-journal :is(a, button, summary):focus-visible, .reading-work a:focus-visible { outline: 2px solid var(--text-link); outline-offset: 4px; }
 .reading-recent > li { margin-bottom: 1.5rem; }
 .reading-recent .reading-note-preview { margin-top: .35rem; }
 .reading-year { margin: 1rem 0; }
 .reading-year > summary { padding: .65rem 0; cursor: pointer; color: var(--text-heading); font-family: "Permanent Marker", cursive; font-size: 1.3rem; }
 .reading-year > ul { margin-top: .8rem; }
-.reading-work-header { margin-top: 1.5rem; }
-.reading-work-header .reading-thumbnail { float: right; margin: 0 0 1rem 1.25rem; }
-.reading-work-header::after { content: ''; display: block; clear: both; }
-.reading-session { margin-top: 2.8rem; }
+.reading-work-header { display: flex; flex-direction: row-reverse; align-items: start; gap: 2rem; margin-top: 1.5rem; }
+.reading-work-copy { flex: 1; min-width: 0; }
+.reading-cover { width: 240px; max-width: 100%; height: auto; flex-shrink: 0; }
+.reading-history { margin-top: 2.8rem; }
+.reading-session { margin-top: 2rem; }
+.reading-history > .reading-session:first-of-type { margin-top: 0; }
 .reading-session > header { padding-bottom: 1rem; border-bottom: 1px solid color-mix(in oklab, var(--text-body) 18%, transparent); }
-.reading-session > header h2 { margin-bottom: .6rem; }
+.reading-session > header > h3 { font-size: 1.25rem; margin: 0 0 .6rem; }
 .reading-update { margin-top: 2rem; scroll-margin-top: 1.5rem; }
 .reading-update > header { margin-bottom: .8rem; }
-.reading-update > header h3 { font: inherit; font-size: .85rem; margin: 0; }
+.reading-update > header :is(h3, h4) { font: inherit; font-size: .85rem; margin: 0; }
 .reading-update-body { margin-top: .75rem; }
 .reading-update-body :is(img, video, iframe) { max-width: 100%; }
 .reading-update-body :is(h2, h3, h4) { margin-top: 1.5em; margin-bottom: .7em; }
@@ -65,9 +63,11 @@
   .reading-entry-heading { flex-wrap: wrap; gap: .15rem .75rem; }
   .reading-thumbnail { width: 60px; max-height: 85px; }
   .reading-entry { gap: .8rem; }
-  .reading-filters { align-items: start; }
-  .reading-filters label { flex-wrap: wrap; }
+  .reading-kinds { width: 100%; }
+  .reading-rss { margin-inline-start: 0; }
+  .reading-work-header { flex-direction: column; gap: 1.5rem; }
+  .reading-cover { align-self: center; }
 }
 @media (pointer: coarse) {
-  .reading-filters :is(button, select), .reading-reset { min-height: 44px; }
+  .reading-kinds button, .reading-reset { min-height: 44px; }
 }

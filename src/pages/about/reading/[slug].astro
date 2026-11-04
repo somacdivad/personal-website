@@ -12,6 +12,14 @@ export async function getStaticPaths() {
 interface Props { work: ReadingWork }
 const { work } = Astro.props;
 const { title, authors, kind, thumbnail, sourceUrl, tags, description } = work.entry.data;
+const multipleReads = work.sessions.length > 1;
+const UpdateHeading = multipleReads ? 'h4' : 'h3';
+const ordinals = new Intl.PluralRules('en-US', { type: 'ordinal' });
+const suffixes: Record<string, string> = { one: 'st', two: 'nd', few: 'rd', other: 'th' };
+function readLabel(number: number) {
+  const name = ['First', 'Second', 'Third'][number - 1] ?? `${number}${suffixes[ordinals.select(number)]}`;
+  return `${name} read`;
+}
 const rendered = new Map(await Promise.all(
   work.sessions.flatMap(session => session.updates
     .filter(update => update.hasNote)
@@ -22,21 +30,37 @@ const rendered = new Map(await Promise.all(
   <main class="reading-work">
     <a class="reading-small-link" href={READING_BASE}>Back to reading</a>
     <header class="reading-work-header">
-      {thumbnail && <Image src={thumbnail} width={100} alt="" class="reading-thumbnail" />}
-      <h1>{title}</h1><p class="reading-meta">{authors.length > 0 && `${authors.join(', ')} · `}{kind}</p>
-      {sourceUrl && <p><a class="reading-small-link" href={sourceUrl}>{kind === 'book' ? 'About this book' : 'Read the original'}</a></p>}
-      {tags.length > 0 && <p class="reading-tags reading-meta">{tags.map(tag => <a href={`${READING_BASE}?tag=${encodeURIComponent(tag)}`}>{tag}</a>)}</p>}
+      {thumbnail && <Image src={thumbnail} width={480} alt="" class="reading-cover" />}
+      <div class="reading-work-copy">
+        <h1>{title}</h1><p class="reading-meta">{authors.length > 0 && `${authors.join(', ')} · `}{kind}</p>
+        {sourceUrl && <p><a class="reading-small-link" href={sourceUrl}>{kind === 'book' ? 'About this book' : 'Read the original'}</a></p>}
+        {tags.length > 0 && <p class="reading-meta">{tags.join(' · ')}</p>}
+      </div>
     </header>
-    {work.sessions.map((session, index) => <section class="reading-session" id={session.anchor}>
-      <header><h2>Reading session{work.sessions.length > 1 && ` ${work.sessions.length - index}`}</h2><p class="reading-meta">{statusNames[session.status]}{session.data.started && <> · Started <time datetime={session.data.started}>{readingDate(session.data.started)}</time></>}{session.archiveDate && <> · {statusNames[session.status]} <time datetime={session.archiveDate}>{readingDate(session.archiveDate)}</time></>}</p><ReadingProgress progress={session.progress} title={title} /></header>
+    <section class="reading-history" aria-labelledby="reading-history-heading">
+      <h2 id="reading-history-heading">Reading history</h2>
+      {work.sessions.map((session, index) => <section class="reading-session" id={session.anchor}>
+      <header>
+        {multipleReads && <h3>{readLabel(work.sessions.length - index)}</h3>}
+        <p class="reading-meta">
+          {!session.archiveDate && statusNames[session.status]}
+          {session.data.started && <>{!session.archiveDate && ' · '}Started <time datetime={session.data.started}>{readingDate(session.data.started)}</time></>}
+          {session.archiveDate && <>{session.data.started && ' · '}{statusNames[session.status]}{' '}<time datetime={session.archiveDate}>{readingDate(session.archiveDate)}</time></>}
+        </p>
+        <ReadingProgress progress={session.progress} title={title} />
+      </header>
       {session.updates.length === 0 && <p class="reading-meta">No updates yet.</p>}
       {session.updates.map(update => {
         const Content = rendered.get(update.entry.id);
         return <section class="reading-update" id={update.anchor}>
-          <header><h3><a href={`#${update.anchor}`}><time datetime={update.entry.data.date}>{readingDate(update.entry.data.date)}</time></a>{update.entry.data.location && ` · ${update.entry.data.location}`}{update.entry.data.status && ` · ${statusNames[update.entry.data.status]}`}</h3><ReadingProgress progress={update.progress} title={title} /></header>
+          <header>
+            <UpdateHeading><a href={`#${update.anchor}`}><time datetime={update.entry.data.date}>{readingDate(update.entry.data.date)}</time></a>{update.entry.data.location && ` · ${update.entry.data.location}`}{update.entry.data.status && ` · ${statusNames[update.entry.data.status]}`}</UpdateHeading>
+            {update.progress && <p class="reading-meta">{update.progress.label}{!update.progress.label.includes('%') && ` · ${update.progress.percent}%`}</p>}
+          </header>
           {Content && <div class="reading-update-body"><Content /></div>}
         </section>;
       })}
-    </section>)}
+      </section>)}
+    </section>
   </main>
 </BaseLayout>

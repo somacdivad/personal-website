@@ -62,7 +62,9 @@ I'm thinking about the difference between having time and being able to call it 
 All dates use quoted `YYYY-MM-DD` calendar dates.
 The filename must match the date, followed by a sequence such as `-01` or `-02`.
 Use the same sequence width throughout, and give later updates on the same day higher numbers.
-Each update must contain progress, a status change, or a note.
+An update can contain progress, a status change, or a note.
+To create a blank note for later, supply only its `session` and `date`, then leave the body empty.
+It appears as a dated note with a “Read note” preview until you add your thoughts.
 Notes and progress are independent: omit `pages` to write a note without changing progress, or leave the body empty to record progress alone.
 
 For a work without page numbers, omit `totalPages` from its session and use `percent: 45` in an update.
@@ -75,6 +77,7 @@ Reaching 100% does not mark a session Finished.
 The journal uses the latest recorded progress and the latest note independently.
 Its Recent notes section shows six notes after filtering, newest first.
 Work pages keep all updates, including progress-only updates.
+Progress bars appear in the read summaries; dated updates show their recorded progress as plain text.
 
 ## Use rich MDX
 
@@ -159,6 +162,9 @@ Updates for the new session use `session: second-read` and their own dated filen
 Only the newest session can remain Reading or Paused.
 Sessions go oldest to newest in the metadata and display newest first on the site.
 Each session has its own progress, dates, and notes.
+Work pages group these under Reading history.
+With one read, dates, status, progress, and notes appear directly beneath that heading.
+With multiple reads, each group has a heading such as First read, Second read, or Third read, with the newest read first.
 
 ## Unknown start dates
 
@@ -182,8 +188,12 @@ Each reread gets its own history row, linked to its session on the same work pag
 Later notes do not change a closed session's archive year.
 Resuming a paused session moves it back to Currently reading.
 
-Filters combine work type, session status, and topic tags.
-Status filters use the session's current status, including for earlier notes in that session.
+Everything, Books, and Shorter works switch the journal's work type.
+Each type uses its own stable hand-drawn underline when selected, distinct from the blog topic underlines.
+The selection stays in the URL and applies across current reading, recent notes, and history.
+There is no item count, status filter, or topic filter.
+Tags remain visible as plain metadata.
+The RSS link sits to the right of the type controls on desktop and below them on mobile.
 The newest matching year opens automatically; older years can be expanded.
 Without JavaScript, the full log is still readable.
 
