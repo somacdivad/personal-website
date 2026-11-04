@@ -3,6 +3,8 @@ import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { Icon } from 'astro-icon/components';
 import FormattedDate from './FormattedDate.astro';
+import { underlineStyle } from '../lib/hand-drawn-underline';
+import '../styles/hand-drawn-underline.css';
 
 interface Props {
   entries: CollectionEntry<'blog' | 'stories'>[];
@@ -23,8 +25,8 @@ const tags = [...new Set(items.flatMap(post => post.data.tags))].sort();
 <main class="collection-index" data-collection-index data-base-path={basePath} data-item-label={itemLabel} data-item-plural={itemPlural} data-initial-topic={initialTopic}>
   <h1>{title}</h1>
   <nav class="topics" aria-label={`Filter ${itemPlural} by topic`}>
-    <a href={`${basePath}/`} data-topic="" aria-current={!initialTopic ? 'true' : undefined}>All topics</a>
-    {tags.map(tag => <a href={`${basePath}/tags/${encodeURIComponent(tag)}/`} data-topic={tag} aria-current={initialTopic === tag ? 'true' : undefined}>{tagNames[tag] ?? tag}</a>)}
+    <a class="hand-drawn-underline" style={underlineStyle(`${basePath}:all`)} href={`${basePath}/`} data-topic="" aria-current={!initialTopic ? 'true' : undefined}>All topics</a>
+    {tags.map(tag => <a class="hand-drawn-underline" style={underlineStyle(`${basePath}:topic:${tag}`)} href={`${basePath}/tags/${encodeURIComponent(tag)}/`} data-topic={tag} aria-current={initialTopic === tag ? 'true' : undefined}>{tagNames[tag] ?? tag}</a>)}
   </nav>
   <div class="browse-controls">
     <p class="result-count" role="status">{visibleCount} {visibleCount === 1 ? itemLabel : itemPlural}{initialTopic && ` in ${tagNames[initialTopic] ?? initialTopic}`}</p>
@@ -135,16 +137,6 @@ const tags = [...new Set(items.flatMap(post => post.data.tags))].sort();
   .topics { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 1.4rem; }
   .topics a { position: relative; display: inline-block; padding: .4rem 0 .7rem; text-decoration: none; color: var(--text-body); }
   .topics a[aria-current="true"] { font-weight: 700; color: var(--text-heading); }
-  .topics a[aria-current="true"]::after {
-    content: '';
-    position: absolute;
-    bottom: .1rem;
-    left: -2px;
-    width: calc(100% + 4px);
-    height: 10px;
-    background: currentColor;
-    mask: url('/icons/topic-marker.svg') center / 100% 100% no-repeat;
-  }
   a:focus-visible, select:focus-visible { outline: 2px solid var(--text-link); outline-offset: 5px; }
   .topics a:hover, .post-link:hover h2 { color: var(--text-link-hover); }
   .browse-controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 1rem 0 1.8rem; font-size: .85rem; }

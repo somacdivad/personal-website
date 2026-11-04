@@ -1,0 +1,21 @@
+.hand-drawn-underline { position: relative; text-decoration: none; }
+.hand-drawn-underline:is([aria-current="true"], [aria-pressed="true"])::after {
+  content: '';
+  position: absolute;
+  bottom: .1rem;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: 10px;
+  background: currentColor;
+  mask: var(--hand-underline, url('/icons/topic-marker.svg')) center / 100% 100% no-repeat;
+  transform: rotate(var(--hand-underline-angle, 0deg));
+  pointer-events: none;
+}
+@media (forced-colors: active) {
+  .hand-drawn-underline:is([aria-current="true"], [aria-pressed="true"])::after {
+    height: 0;
+    background: none;
+    mask: none;
+    border-bottom: 2px solid currentColor;
+  }
+}

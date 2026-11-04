@@ -3,6 +3,8 @@
 [Source](../src/components/CollectionIndex.astro).
 The Blog and Stories pages use this shared list and toolbar.
 It shows topic filters, a result count, sorting, and an RSS subscribe link with an icon.
+Selected topics use hand-drawn underlines.
+Each topic has its own stable stroke, shared across its index and tag pages.
 
 Pass `entries`, `title`, `basePath`, `itemLabel`, and `itemPlural`.
 `entries` accepts blog or story collection entries.
