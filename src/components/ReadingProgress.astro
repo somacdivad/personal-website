@@ -1,0 +1,9 @@
+---
+import type { Progress } from '../lib/reading';
+interface Props { progress?: Progress; title: string }
+const { progress, title } = Astro.props;
+---
+{progress && <div class="reading-progress">
+  <div class="reading-progress-label"><span>{progress.label}</span>{!progress.label.includes('%') && <span>{progress.percent}%</span>}</div>
+  <progress value={progress.percent} max="100" aria-label={`${title}: ${progress.label}`} />
+</div>}

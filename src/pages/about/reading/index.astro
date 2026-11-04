@@ -1,0 +1,102 @@
+---
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ReadingEntry from '../../../components/ReadingEntry.astro';
+import { READING_BASE, READING_TITLE, getReadingWorks, getReadingLists, readingDate, statusNames } from '../../../lib/reading';
+import '../../../styles/reading.css';
+
+const works = await getReadingWorks();
+const { current, history, notes } = getReadingLists(works);
+const tags = [...new Set(works.flatMap(work => work.entry.data.tags))].sort();
+const years = [...new Set(history.map(({ session }) => session.archiveDate!.slice(0, 4)))];
+---
+<BaseLayout title={READING_TITLE} description="What I'm reading, where I am, and thoughts along the way.">
+  <main class="reading-journal" data-reading-journal>
+    <h1>{READING_TITLE}</h1>
+    <p class="reading-intro">What I'm reading, where I am, and thoughts along the way.</p>
+    <div class="reading-tools"><p class="reading-meta" data-reading-count role="status">{works.length} {works.length === 1 ? 'work' : 'works'}</p><a class="reading-rss" href={`${READING_BASE}rss.xml`}><Icon name="ui/rss" width={18} height={18} aria-hidden="true" />Subscribe via RSS</a></div>
+    {works.length > 0 && <form class="reading-filters" hidden data-reading-filters>
+      <div class="reading-kinds" role="group" aria-label="Work type"><button type="button" data-kind-filter="" aria-pressed="true">Everything</button><button type="button" data-kind-filter="book" aria-pressed="false">Books</button><button type="button" data-kind-filter="shorter" aria-pressed="false">Shorter works</button></div>
+      <label>Status <select name="status"><option value="">All statuses</option>{Object.entries(statusNames).map(([value, name]) => <option value={value}>{name}</option>)}</select></label>
+      {tags.length > 0 && <label>Topic <select name="tag"><option value="">All topics</option>{tags.map(tag => <option value={tag}>{tag}</option>)}</select></label>}
+      <button class="reading-reset" type="reset">Reset filters</button>
+    </form>}
+    {works.length === 0 ? <p>No reading entries yet.</p> : <>
+      <p hidden data-no-results>No reading sessions match these filters. <button type="button" class="reading-reset" data-reset-reading>Reset filters</button>.</p>
+      <section class="reading-section"><h2>Currently reading</h2><ul class="reading-list" data-reading-group="current">{current.map(({ work, session }) => <ReadingEntry work={work} session={session} current />)}</ul><p class="reading-meta" data-empty-group="current" hidden={current.length > 0}>Nothing currently reading.</p></section>
+      <section class="reading-section"><h2>Recent notes</h2><ul class="reading-recent" data-reading-group="notes">{notes.map(({ work, session, update }, index) => <li data-reading-entry data-kind={work.entry.data.kind === 'book' ? 'book' : 'shorter'} data-status={session.status} data-tags={JSON.stringify(work.entry.data.tags)} hidden={index >= 6}>
+        <h3><a href={update.href}>{work.entry.data.title}</a></h3><p class="reading-meta"><time datetime={update.entry.data.date}>{readingDate(update.entry.data.date)}</time>{update.entry.data.location && ` · ${update.entry.data.location}`}</p><p class="reading-note-preview">{update.preview} <a class="reading-small-link" href={update.href}>Read note</a></p>
+      </li>)}</ul><p class="reading-meta" data-empty-group="notes" hidden={notes.length > 0}>No reading notes yet.</p></section>
+      <section class="reading-section"><h2>Reading history</h2><div data-reading-group="history">{years.map((year, index) => <details class="reading-year" open={index === 0}><summary>{year}</summary><ul class="reading-list">{history.filter(({ session }) => session.archiveDate!.startsWith(year)).map(({ work, session }) => <ReadingEntry work={work} session={session} />)}</ul></details>)}</div><p class="reading-meta" data-empty-group="history" hidden={history.length > 0}>No paused, stopped, or finished reading yet.</p></section>
+    </>}
+  </main>
+</BaseLayout>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-reading-journal]');
+  const form = root?.querySelector<HTMLFormElement>('[data-reading-filters]');
+  if (root && form) {
+    const status = form.querySelector<HTMLSelectElement>('[name="status"]')!;
+    const tag = form.querySelector<HTMLSelectElement>('[name="tag"]');
+    const kinds = [...form.querySelectorAll<HTMLButtonElement>('[data-kind-filter]')];
+    const entries = [...root.querySelectorAll<HTMLElement>('[data-reading-entry]')].map(element => ({ element, tags: JSON.parse(element.dataset.tags!) as string[] }));
+    let kind = '';
+    function apply() {
+      for (const { element, tags } of entries) {
+        element.hidden = !!((kind && element.dataset.kind !== kind) || (status.value && element.dataset.status !== status.value) || (tag?.value && !tags.includes(tag.value)));
+      }
+      kinds.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.kindFilter === kind)));
+      const recent = [...root!.querySelectorAll<HTMLElement>('[data-reading-group="notes"] > li')].filter(item => !item.hidden);
+      recent.slice(6).forEach(item => item.hidden = true);
+      let firstYear = true;
+      root!.querySelectorAll<HTMLDetailsElement>('.reading-year').forEach(year => {
+        year.hidden = ![...year.querySelectorAll<HTMLElement>('[data-reading-entry]')].some(item => !item.hidden);
+        year.open = !year.hidden && firstYear;
+        if (!year.hidden) firstYear = false;
+      });
+      for (const name of ['current', 'notes', 'history']) {
+        const hasEntries = [...root!.querySelectorAll<HTMLElement>(`[data-reading-group="${name}"] [data-reading-entry]`)].some(item => !item.hidden);
+        root!.querySelector<HTMLElement>(`[data-empty-group="${name}"]`)!.hidden = hasEntries;
+      }
+      const count = entries.filter(({ element }) => !element.hidden && !element.closest('[data-reading-group="notes"]')).length;
+      root!.querySelector('[data-reading-count]')!.textContent = `${count} reading ${count === 1 ? 'session' : 'sessions'}`;
+      root!.querySelector<HTMLElement>('[data-no-results]')!.hidden = count > 0;
+      revealAnchor();
+    }
+    function revealAnchor() {
+      const id = location.hash.slice(1);
+      const target = document.getElementById(id);
+      const year = target?.closest<HTMLDetailsElement>('details');
+      if (year && !year.hidden) year.open = true;
+    }
+    function readLocation() {
+      const params = new URLSearchParams(location.search);
+      kind = ['book', 'shorter'].includes(params.get('kind') ?? '') ? params.get('kind')! : '';
+      for (const select of [status, tag]) {
+        if (!select) continue;
+        const value = params.get(select.name) ?? '';
+        select.value = [...select.options].some(option => option.value === value) ? value : '';
+      }
+      apply();
+    }
+    function saveLocation() {
+      const url = new URL(location.href);
+      for (const [key, value] of [['kind', kind], ['status', status.value], ['tag', tag?.value ?? '']]) {
+        if (value) url.searchParams.set(key, value);
+        else url.searchParams.delete(key);
+      }
+      history.pushState(null, '', url);
+      apply();
+    }
+    function reset() { kind = ''; status.value = ''; if (tag) tag.value = ''; saveLocation(); }
+    kinds.forEach(button => button.addEventListener('click', () => { kind = button.dataset.kindFilter!; saveLocation(); }));
+    form.addEventListener('change', saveLocation);
+    form.addEventListener('submit', event => event.preventDefault());
+    form.addEventListener('reset', event => { event.preventDefault(); reset(); });
+    root.querySelector('[data-reset-reading]')!.addEventListener('click', reset);
+    window.addEventListener('popstate', readLocation);
+    window.addEventListener('hashchange', revealAnchor);
+    readLocation();
+    form.hidden = false;
+  }
+</script>

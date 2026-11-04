@@ -1,0 +1,26 @@
+---
+import { Image } from 'astro:assets';
+import { READING_BASE, readingDate, statusNames, type ReadingWork, type ReadingSession } from '../lib/reading';
+import ReadingProgress from './ReadingProgress.astro';
+interface Props { work: ReadingWork; session: ReadingSession; current?: boolean }
+const { work, session, current = false } = Astro.props;
+const { title, authors, kind, thumbnail, tags } = work.entry.data;
+const latestNote = session.updates.find(update => update.hasNote);
+---
+<li class="reading-entry" data-reading-entry data-kind={kind === 'book' ? 'book' : 'shorter'} data-status={session.status} data-tags={JSON.stringify(tags)} id={`history-${work.entry.id}-${session.data.id}`}>
+  {thumbnail && <Image src={thumbnail} width={100} alt="" loading="lazy" class="reading-thumbnail" />}
+  <div class="reading-entry-copy">
+    <div class="reading-entry-heading"><h3><a href={session.href}>{title}</a></h3><span class="reading-meta">{statusNames[session.status]}</span></div>
+    <p class="reading-meta">{authors.length > 0 && `${authors.join(', ')} · `}{kind}</p>
+    <p class="reading-meta">
+      {session.data.started && <>Started <time datetime={session.data.started}>{readingDate(session.data.started)}</time></>}
+      {session.archiveDate && <>{session.data.started && ' · '}{statusNames[session.status]} <time datetime={session.archiveDate}>{readingDate(session.archiveDate)}</time></>}
+    </p>
+    {current && <>
+      <ReadingProgress progress={session.progress} title={title} />
+      {latestNote && <div class="reading-note-preview"><p>{latestNote.preview}</p><p class="reading-meta"><time datetime={latestNote.entry.data.date}>{readingDate(latestNote.entry.data.date)}</time>{latestNote.entry.data.location && ` · ${latestNote.entry.data.location}`}</p></div>}
+      {session.updates.length > 0 && <a class="reading-small-link" href={session.href}>View reading history</a>}
+    </>}
+    {tags.length > 0 && <p class="reading-meta reading-tags">{tags.map(tag => <a href={`${READING_BASE}?tag=${encodeURIComponent(tag)}`}>{tag}</a>)}</p>}
+  </div>
+</li>

@@ -1,0 +1,42 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ReadingProgress from '../../../components/ReadingProgress.astro';
+import { READING_BASE, getReadingWorks, readingDate, statusNames, type ReadingWork } from '../../../lib/reading';
+import '../../../styles/reading.css';
+
+export async function getStaticPaths() {
+  return (await getReadingWorks()).map(work => ({ params: { slug: work.entry.id }, props: { work } }));
+}
+interface Props { work: ReadingWork }
+const { work } = Astro.props;
+const { title, authors, kind, thumbnail, sourceUrl, tags, description } = work.entry.data;
+const rendered = new Map(await Promise.all(
+  work.sessions.flatMap(session => session.updates
+    .filter(update => update.hasNote)
+    .map(async update => [update.entry.id, (await render(update.entry)).Content] as const)),
+));
+---
+<BaseLayout title={title} description={description ?? `Reading notes on ${title}${authors.length ? ` by ${authors.join(', ')}` : ''}.`} image={thumbnail}>
+  <main class="reading-work">
+    <a class="reading-small-link" href={READING_BASE}>Back to reading</a>
+    <header class="reading-work-header">
+      {thumbnail && <Image src={thumbnail} width={100} alt="" class="reading-thumbnail" />}
+      <h1>{title}</h1><p class="reading-meta">{authors.length > 0 && `${authors.join(', ')} · `}{kind}</p>
+      {sourceUrl && <p><a class="reading-small-link" href={sourceUrl}>{kind === 'book' ? 'About this book' : 'Read the original'}</a></p>}
+      {tags.length > 0 && <p class="reading-tags reading-meta">{tags.map(tag => <a href={`${READING_BASE}?tag=${encodeURIComponent(tag)}`}>{tag}</a>)}</p>}
+    </header>
+    {work.sessions.map((session, index) => <section class="reading-session" id={session.anchor}>
+      <header><h2>Reading session{work.sessions.length > 1 && ` ${work.sessions.length - index}`}</h2><p class="reading-meta">{statusNames[session.status]}{session.data.started && <> · Started <time datetime={session.data.started}>{readingDate(session.data.started)}</time></>}{session.archiveDate && <> · {statusNames[session.status]} <time datetime={session.archiveDate}>{readingDate(session.archiveDate)}</time></>}</p><ReadingProgress progress={session.progress} title={title} /></header>
+      {session.updates.length === 0 && <p class="reading-meta">No updates yet.</p>}
+      {session.updates.map(update => {
+        const Content = rendered.get(update.entry.id);
+        return <section class="reading-update" id={update.anchor}>
+          <header><h3><a href={`#${update.anchor}`}><time datetime={update.entry.data.date}>{readingDate(update.entry.data.date)}</time></a>{update.entry.data.location && ` · ${update.entry.data.location}`}{update.entry.data.status && ` · ${statusNames[update.entry.data.status]}`}</h3><ReadingProgress progress={update.progress} title={title} /></header>
+          {Content && <div class="reading-update-body"><Content /></div>}
+        </section>;
+      })}
+    </section>)}
+  </main>
+</BaseLayout>
