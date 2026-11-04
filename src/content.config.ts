@@ -34,4 +34,35 @@ const stories = defineCollection({
 		}),
 });
 
-export const collections = { blog, stories };
+const readingWorks = defineCollection({
+	loader: glob({ base: './src/content/reading', pattern: '*/work.md', generateId: ({ entry }) => entry.split('/')[0] }),
+	schema: ({ image }) => z.object({
+		title: z.string().trim().min(1),
+		authors: z.array(z.string().trim().min(1)),
+		kind: z.enum(['book', 'article', 'essay', 'paper', 'short story', 'other']),
+		sourceUrl: z.string().url().refine(url => /^https?:\/\//.test(url)).optional(),
+		thumbnail: image().optional(),
+		description: z.string().optional(),
+		tags: z.array(z.string().trim().min(1)).default([]),
+		sessions: z.array(z.object({
+			id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+			started: z.string().optional(),
+			totalPages: z.number().int().positive().optional(),
+		}).strict()).min(1),
+	}).strict(),
+});
+
+const readingUpdates = defineCollection({
+	loader: glob({ base: './src/content/reading', pattern: '*/updates/*.mdx', generateId: ({ entry }) => entry.replace(/\.mdx$/, '') }),
+	schema: z.object({
+		session: z.string(),
+		date: z.string(),
+		pages: z.number().int().nonnegative().optional(),
+		percent: z.number().min(0).max(100).optional(),
+		status: z.enum(['reading', 'paused', 'stopped', 'finished']).optional(),
+		location: z.string().trim().min(1).optional(),
+		summary: z.string().trim().min(1).optional(),
+	}).strict(),
+});
+
+export const collections = { blog, stories, readingWorks, readingUpdates };
