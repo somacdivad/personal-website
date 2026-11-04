@@ -66,7 +66,9 @@ function firstParagraph(node: Node): string {
 
 function note(entry: UpdateEntry) {
 	const tree = parser.parse(entry.body ?? '') as Node;
-	const hasNote = (tree.children ?? []).some(node => !['mdxjsEsm', 'definition'].includes(node.type));
+	const hasContent = (tree.children ?? []).some(node => !['mdxjsEsm', 'definition'].includes(node.type));
+	const blankNote = entry.data.pages === undefined && entry.data.percent === undefined && !entry.data.status;
+	const hasNote = hasContent || blankNote;
 	const words = firstParagraph(tree).split(/\s+/).filter(Boolean);
 	const preview = entry.data.summary ?? (words.length ? words.slice(0, 40).join(' ') + (words.length > 40 ? '…' : '') : 'Read note');
 	return { hasNote, preview };
@@ -131,7 +133,6 @@ export async function getReadingWorks(): Promise<ReadingWork[]> {
 				if (previousEnd && date < previousEnd) fail(update, 'This session overlaps the preceding session.');
 				const content = note(update);
 				const nextProgress = progress(update.data, data, update);
-				if (!content.hasNote && !nextProgress && !update.data.status) fail(update, 'An update needs progress, a status change, or note content.');
 				if (status === 'stopped' || status === 'finished') {
 					if (update.data.status || nextProgress) fail(update, 'Closed sessions accept notes only; returning requires a new session.');
 				}
