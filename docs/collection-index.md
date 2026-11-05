@@ -21,3 +21,5 @@ Without JavaScript, topic links open static tag pages and sorting stays hidden.
 
 The RSS link always points to the collection's feed, even when a topic is selected.
 It remains visible when the collection is empty.
+The shared `RssLink.astro` component supplies the icon, label, and link styles
+for Blog, Stories, and the reading journal.

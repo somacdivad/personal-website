@@ -29,7 +29,7 @@
 .reading-note-preview > p { margin-bottom: .3rem; }
 .reading-small-link { font-size: .8rem; }
 .reading-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.5rem; margin: 1.3rem 0; padding-bottom: 1rem; border-bottom: 1px solid color-mix(in oklab, var(--text-body) 18%, transparent); font-size: .85rem; }
-.reading-rss { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; margin-inline-start: auto; }
+.reading-rss { margin-inline-start: auto; }
 .reading-kinds { display: flex; flex-wrap: wrap; gap: 1rem; }
 .reading-kinds button, .reading-reset { font: inherit; color: var(--text-link); background: none; border: 0; padding: .4rem 0; cursor: pointer; }
 .reading-kinds button { padding-bottom: .7rem; }

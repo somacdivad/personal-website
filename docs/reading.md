@@ -194,6 +194,7 @@ The selection stays in the URL and applies across current reading, recent notes,
 There is no item count, status filter, or topic filter.
 Tags remain visible as plain metadata.
 The RSS link sits to the right of the type controls on desktop and below them on mobile.
+It uses the same `RssLink.astro` component as Blog and Stories, with no underline.
 The newest matching year opens automatically; older years can be expanded.
 Without JavaScript, the full log is still readable.
 

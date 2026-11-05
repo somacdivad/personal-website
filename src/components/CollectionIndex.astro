@@ -1,8 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import { Icon } from 'astro-icon/components';
 import FormattedDate from './FormattedDate.astro';
+import RssLink from './RssLink.astro';
 import { underlineStyle } from '../lib/hand-drawn-underline';
 import '../styles/hand-drawn-underline.css';
 
@@ -38,10 +38,7 @@ const tags = [...new Set(items.flatMap(post => post.data.tags))].sort();
           <option value="title">Title A–Z</option>
         </select>
       </label>
-      <a class="rss-link" href={`${basePath}/rss.xml`}>
-        <Icon name="ui/rss" width={18} height={18} aria-hidden="true" />
-        Subscribe via RSS
-      </a>
+      <RssLink href={`${basePath}/rss.xml`} />
     </div>
   </div>
   <ul class="reading-list">
@@ -142,8 +139,6 @@ const tags = [...new Set(items.flatMap(post => post.data.tags))].sort();
   .browse-controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 1rem 0 1.8rem; font-size: .85rem; }
   .result-count { color: var(--text-muted); margin: 0; }
   .browse-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.25rem; }
-  .rss-link { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; white-space: nowrap; color: var(--text-link); text-decoration: none; }
-  .rss-link:hover { color: var(--text-link-hover); }
   .sort-control { display: flex; align-items: center; gap: .5rem; }
   select { font: inherit; color: var(--text-body); background: var(--color-base-100); border: 0; padding: .4rem .2rem; }
   .reading-list { list-style: none; padding: 0; margin: 0; }
