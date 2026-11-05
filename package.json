@@ -6,10 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "test:video-pair": "node --test scripts/video-pair.test.mjs",
-    "test:quotes": "node --test scripts/quotes.test.mjs",
     "format:sentences": "node scripts/format-sentences.mjs",
-    "test:sentence-format": "node --test scripts/sentence-format.test.mjs",
     "draft:share": "node scripts/draft-sharing.mjs share",
     "draft:unshare": "node scripts/draft-sharing.mjs unshare",
     "astro": "astro"

@@ -31,5 +31,3 @@ don't need to run `draft:unshare`.
 
 Previews use the same article layout, with `noindex` and no analytics. Anyone
 with the link can read or forward it.
-
-Run command tests with `node --test scripts/draft-sharing.test.mjs`.
