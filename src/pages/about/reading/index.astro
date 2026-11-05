@@ -11,7 +11,7 @@ const works = await getReadingWorks();
 const { current, history, notes } = getReadingLists(works);
 const years = [...new Set(history.map(({ session }) => session.archiveDate!.slice(0, 4)))];
 ---
-<BaseLayout title={READING_TITLE} description="What I'm reading, where I am, and thoughts along the way.">
+<BaseLayout title={READING_TITLE} description="Books and other works I am currently reading and short notes on them.">
   <main class="reading-journal" data-reading-journal>
     <h1>{READING_TITLE}</h1>
     <p class="reading-intro">Books and other works I am currently reading and short notes on them.</p>
