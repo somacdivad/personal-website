@@ -26,7 +26,18 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [], tagBaseP
 >
 	<article>
 		<div class="hero-image mt-4">
-			{heroImage && <Image width={1020} height={heroImage.width === heroImage.height ? 1020 : 510} src={heroImage} alt="" />}
+			{heroImage && (
+				<Image
+					src={heroImage}
+					width={1020}
+					height={heroImage.width === heroImage.height ? 1020 : 510}
+					widths={[400, 640, 800, 1020]}
+					sizes="(max-width: 840px) calc(100vw - 40px), 800px"
+					quality={70}
+					priority
+					alt=""
+				/>
+			)}
 		</div>
 		<div class="prose">
 			<div class="title">
