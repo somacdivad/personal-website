@@ -78,6 +78,8 @@ The journal uses the latest recorded progress and the latest note independently.
 Its Recent notes section shows six notes after filtering, newest first.
 Work pages keep all updates, including progress-only updates.
 Progress bars appear in the read summaries; dated updates show their recorded progress as plain text.
+They use the mockup's marker stroke with a separate fill that slightly overlaps the track's edges.
+The overlap stays consistent for each work, and the bars retain accessible progress values and high-contrast colors.
 
 ## Use rich MDX
 

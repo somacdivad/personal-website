@@ -2,8 +2,16 @@
 import type { Progress } from '../lib/reading';
 interface Props { progress?: Progress; title: string }
 const { progress, title } = Astro.props;
+const stroke = 'M2 11L5 6.7C72 4.8 120 7.7 196 5.7S312 5 395 6.5L398 9.8L396 13.6C312 14.2 256 13.7 192 14.4S68 13.2 5 14.5Z';
+const spill = title.length % 3 - 1;
 ---
 {progress && <div class="reading-progress">
   <div class="reading-progress-label"><span>{progress.label}</span>{!progress.label.includes('%') && <span>{progress.percent}%</span>}</div>
-  <progress value={progress.percent} max="100" aria-label={`${title}: ${progress.label}`} />
+  <progress class="sr-only" value={progress.percent} max="100" aria-label={`${title}: ${progress.label}`} />
+  <svg class="reading-progress-stroke" viewBox="0 0 400 20" preserveAspectRatio="none" aria-hidden="true">
+    <path class="reading-progress-track" d={stroke} />
+    {progress.percent > 0 && <svg y={spill} width={`${progress.percent}%`} height="20" viewBox="0 0 400 20" preserveAspectRatio="none" overflow="visible">
+      <path class="reading-progress-ink" d={stroke} transform="translate(0 -3) scale(1 1.4)" />
+    </svg>}
+  </svg>
 </div>}
