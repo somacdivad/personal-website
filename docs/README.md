@@ -1,31 +1,34 @@
-# Site docs
+# Site how-to guides
 
-Notes for writing posts and maintaining this personal site. These files are
-repository docs, not published site routes.
+Short guides for writing and maintaining [davidamoswrites.com](https://davidamoswrites.com). These are repository docs, not published site pages. Run commands from the repository root.
 
-| Document | Description |
-| --- | --- |
-| [VideoPair](video-pair.md) | Two video players with an optional shared caption. |
-| [VideoFigure](video-figure.md) | One video player with an optional caption. |
-| [Translation](translation.md) | Original text beside its translation, with an optional citation. |
-| [Markdown quote footers](markdown-quote-footers.md) | Add attribution and footnotes inside a blockquote. |
-| [HeroWithFigure](hero-with-figure.md) | Home-page greeting, portrait, introduction, and optional links. |
-| [FormattedDate](formatted-date.md) | Display a date with machine-readable HTML. |
-| [BaseHead](base-head.md) | Page metadata, social previews, analytics, and preview behavior. |
-| [Header](header.md) | Site navigation and the saved light/dark theme choice. |
-| [Footer](footer.md) | Social links and the copyright line. |
-| [NewsletterSignup](newsletter-signup.md) | Buttondown signup form with site fonts and light/dark theme colors. |
-| [KoFiButton](ko-fi-button.md) | Ko-fi support button shown above the signup form on blog posts. |
-| [KoFiOverlay](ko-fi-overlay.md) | Floating Ko-fi support widget, omitted from the homepage and draft previews. |
-| [BaseLayout](base-layout.md) | Shared page shell and the rotating handwritten dividers. |
-| [BlogPost](blog-post.md) | Article layout, hero image, dates, tags, and content. |
-| [Stories](stories.md) | Add stories and control draft visibility. |
-| [Reading journal](reading.md) | Log works, reading sessions, progress, and dated MDX notes. |
-| [CollectionIndex](collection-index.md) | Shared blog and stories list, topic filters, sorting, and RSS link. |
-| [Draft previews](draft-previews.md) | Keep drafts unpublished and share an unlisted preview link. |
-| [Sentence formatting](sentence-format.md) | Put prose sentences on separate source lines in Markdown and MDX. |
+## Writing
 
-Examples that import components from `../../components/` assume an MDX post
-in `src/content/blog/`. In an Astro page, put imports between the opening
-`---` lines and adjust the import path for the file's location. In MDX, put
-imports after the closing frontmatter delimiter, outside a `---` block.
+- [Create a post or story](create-a-post-or-story.md)
+- [Add an image](add-an-image.md)
+- [Add a video](add-a-video.md)
+- [Compare two videos](compare-two-videos.md)
+- [Quote a source](quote-a-source.md)
+- [Add a translation](add-a-translation.md)
+- [Format sentences](format-sentences.md)
+- [Share a draft](share-a-draft.md)
+
+## Reading
+
+- [Add a reading work](add-a-reading-work.md)
+- [Record reading progress](record-reading-progress.md)
+- [Add a reading note](add-a-reading-note.md)
+- [Change reading status](change-reading-status.md)
+- [Start a reread](start-a-reread.md)
+
+## Site upkeep
+
+- [Preview locally](preview-locally.md)
+- [Deploy changes](deploy-changes.md)
+- [Edit the homepage](edit-the-homepage.md)
+- [Edit the philosophy page](edit-the-philosophy-page.md)
+- [Change navigation](change-navigation.md)
+- [Change social links](change-social-links.md)
+- [Change site metadata](change-site-metadata.md)
+- [Update newsletter settings](update-newsletter-settings.md)
+- [Update Ko-fi settings](update-ko-fi-settings.md)
