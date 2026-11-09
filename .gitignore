@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # local Impeccable data
 .impeccable/
+
+# Windows reserved device name, accidentally created by `2> nul` redirects in Git Bash
+nul
