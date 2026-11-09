@@ -24,7 +24,7 @@ import { SOCIAL_LINKS } from '../consts';
 			My personal writing covers a range of topics including technology, parenting, music, and philosophy.
 		</p>
 		<p>
-			I publish my personal writing on my <a href="/blog">blog</a> and on <a href={SOCIAL_LINKS.find(link => link.name === 'Medium').href} target="_blank" rel="noopener noreferrer">Medium</a>.
+			I publish my personal writing on my <a href="/blog">blog</a> and on <a href={SOCIAL_LINKS.find(link => link.name === 'Medium')?.href || '#'} target="_blank" rel="noopener noreferrer">Medium</a>.
 		</p>
 		<NewsletterSignup />
 	</main>
