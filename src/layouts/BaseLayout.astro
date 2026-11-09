@@ -23,6 +23,7 @@ const pageTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
 	</head>
 	<body>
 		<Header />
+		<slot name="after-header" />
 		<slot />
 		<Footer />
 		{Astro.url.pathname !== '/' && !preview && <KoFiOverlay />}

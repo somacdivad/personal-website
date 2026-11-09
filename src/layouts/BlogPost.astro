@@ -5,6 +5,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import KoFiButton from '../components/KoFiButton.astro';
+import ScrollProgress from '../components/ScrollProgress.astro';
 
 
 type Props = Pick<CollectionEntry<'blog'>['data'], 'title' | 'description' | 'pubDate' | 'updatedDate' | 'heroImage'> & {
@@ -24,6 +25,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [], tagBaseP
 	image={heroImage}
 	preview={preview}
 >
+	<ScrollProgress slot="after-header" />
 	<article>
 		<div class="hero-image mt-4">
 			{heroImage && (
