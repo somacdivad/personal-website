@@ -2,6 +2,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkMdx from 'remark-mdx';
+import remarkGfm from 'remark-gfm';
 
 export const READING_BASE = '/about/reading/';
 export const READING_TITLE = "What I'm reading";
@@ -17,6 +18,7 @@ export type ReadingUpdate = {
 	href: string;
 	hasNote: boolean;
 	preview: string;
+	previewHtml: string;
 	progress?: Progress;
 };
 export type ReadingSession = {
@@ -31,7 +33,7 @@ export type ReadingSession = {
 };
 export type ReadingWork = { entry: WorkEntry; href: string; sessions: ReadingSession[] };
 type Node = { type: string; value?: string; children?: Node[] };
-const parser = unified().use(remarkParse).use(remarkMdx);
+const parser = unified().use(remarkParse).use(remarkGfm).use(remarkMdx);
 
 function fail(entry: WorkEntry | UpdateEntry, message: string): never {
 	throw new Error(`${entry.filePath ?? entry.id}: ${message}`);
@@ -48,20 +50,64 @@ export function readingDate(date: string) {
 	return new Date(`${date}T00:00:00Z`).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
 }
 
-function text(node: Node): string {
-	if (['mdxjsEsm', 'mdxTextExpression', 'mdxFlowExpression', 'code', 'inlineCode'].includes(node.type)) return '';
-	if (node.type === 'text') return node.value ?? '';
-	return (node.children ?? []).map(text).join('');
+const PREVIEW_WORDS = 40;
+const ENTITIES: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+const escapeHtml = (value: string) => value.replace(/[&<>"']/g, character => ENTITIES[character]);
+const inlineTags: Record<string, string> = { emphasis: 'em', strong: 'strong', delete: 'del' };
+type InlineToken = { kind: 'word'; value: string } | { kind: 'space' } | { kind: 'open'; tag: string } | { kind: 'close'; tag: string };
+
+function inlineTokens(node: Node, tokens: InlineToken[]) {
+	if (node.type === 'text') {
+		for (const [chunk] of (node.value ?? '').matchAll(/\S+|\s+/g)) tokens.push(/\s/.test(chunk) ? { kind: 'space' } : { kind: 'word', value: chunk });
+	} else if (node.type === 'break') {
+		tokens.push({ kind: 'space' });
+	} else if (!['mdxjsEsm', 'mdxTextExpression', 'mdxFlowExpression', 'code', 'inlineCode', 'html', 'image'].includes(node.type)) {
+		const tag = inlineTags[node.type];
+		if (tag) tokens.push({ kind: 'open', tag });
+		for (const child of node.children ?? []) inlineTokens(child, tokens);
+		if (tag) tokens.push({ kind: 'close', tag });
+	}
 }
 
-function firstParagraph(node: Node): string {
-	if (node.type === 'paragraph') return text(node).replace(/\s+/g, ' ').trim();
-	if (node.type.startsWith('mdx') || node.type === 'code') return '';
-	for (const child of node.children ?? []) {
-		const paragraph = firstParagraph(child);
-		if (paragraph) return paragraph;
+function firstParagraphTokens(node: Node): InlineToken[] | undefined {
+	if (node.type === 'paragraph') {
+		const tokens: InlineToken[] = [];
+		for (const child of node.children ?? []) inlineTokens(child, tokens);
+		return tokens.some(token => token.kind === 'word') ? tokens : undefined;
 	}
-	return '';
+	if (node.type.startsWith('mdx') || node.type === 'code') return undefined;
+	for (const child of node.children ?? []) {
+		const tokens = firstParagraphTokens(child);
+		if (tokens) return tokens;
+	}
+	return undefined;
+}
+
+function renderInline(tokens: InlineToken[], wordLimit: number) {
+	let html = '';
+	let pendingSpace = false;
+	let words = 0;
+	let truncated = false;
+	const open: string[] = [];
+	for (const token of tokens) {
+		if (token.kind === 'open') {
+			if (pendingSpace && words > 0) { html += ' '; pendingSpace = false; }
+			html += `<${token.tag}>`;
+			open.push(token.tag);
+		} else if (token.kind === 'close') {
+			html += `</${open.pop()!}>`;
+		} else if (token.kind === 'space') {
+			pendingSpace = true;
+		} else {
+			if (words === wordLimit) { truncated = true; break; }
+			if (pendingSpace && words > 0) { html += ' '; pendingSpace = false; }
+			html += escapeHtml(token.value);
+			words += 1;
+		}
+	}
+	if (truncated) html += '…';
+	while (open.length > 0) html += `</${open.pop()}>`;
+	return html;
 }
 
 function note(entry: UpdateEntry) {
@@ -69,9 +115,13 @@ function note(entry: UpdateEntry) {
 	const hasContent = (tree.children ?? []).some(node => !['mdxjsEsm', 'definition'].includes(node.type));
 	const blankNote = entry.data.pages === undefined && entry.data.percent === undefined && !entry.data.status;
 	const hasNote = hasContent || blankNote;
-	const words = firstParagraph(tree).split(/\s+/).filter(Boolean);
-	const preview = entry.data.summary ?? (words.length ? words.slice(0, 40).join(' ') + (words.length > 40 ? '…' : '') : 'Read note');
-	return { hasNote, preview };
+	const tokens = firstParagraphTokens(tree);
+	const words = (tokens ?? []).filter(token => token.kind === 'word').map(token => token.value);
+	const preview = entry.data.summary ?? (words.length ? words.slice(0, PREVIEW_WORDS).join(' ') + (words.length > PREVIEW_WORDS ? '…' : '') : 'Read note');
+	const previewHtml = entry.data.summary === undefined
+		? tokens ? renderInline(tokens, PREVIEW_WORDS) : 'Read note'
+		: escapeHtml(entry.data.summary);
+	return { hasNote, preview, previewHtml };
 }
 
 function progress(data: UpdateEntry['data'], session: SessionData, entry: UpdateEntry): Progress | undefined {

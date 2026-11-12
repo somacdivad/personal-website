@@ -18,7 +18,7 @@ const latestNote = session.updates.find(update => update.hasNote);
     </p>
     {current && <>
       <ReadingProgress progress={session.progress} title={title} />
-      {latestNote && <div class="reading-note-preview"><p>{latestNote.preview}</p><p class="reading-meta"><time datetime={latestNote.entry.data.date}>{readingDate(latestNote.entry.data.date)}</time>{latestNote.entry.data.location && ` · ${latestNote.entry.data.location}`}</p></div>}
+      {latestNote && <div class="reading-note-preview"><p set:html={latestNote.previewHtml}></p><p class="reading-meta"><time datetime={latestNote.entry.data.date}>{readingDate(latestNote.entry.data.date)}</time>{latestNote.entry.data.location && ` · ${latestNote.entry.data.location}`}</p></div>}
       {session.updates.length > 0 && <a class="reading-small-link" href={session.href}>View reading history</a>}
     </>}
     {tags.length > 0 && <p class="reading-meta">{tags.join(' · ')}</p>}
